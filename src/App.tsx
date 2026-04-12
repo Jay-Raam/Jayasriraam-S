@@ -6,6 +6,7 @@ import {
     achievements,
     blogDetails,
     contactLinks,
+    educations,
     experiences,
     heroStats,
     musicTracks,
@@ -373,43 +374,53 @@ function App() {
                 <section id="education" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="04" title="EDUCATION" />
 
-                    <div className="reveal border-2 border-[var(--black)]">
-                        <div className="grid md:grid-cols-[1.2fr_0.8fr]">
-                            <div className="relative overflow-hidden border-b-2 border-[var(--black)] px-8 py-10 md:border-b-0 md:border-r-2 md:px-10 md:py-12">
-                                <div className="pointer-events-none absolute right-4 top-2 font-display text-[5.5rem] leading-none text-black/5 md:text-[8.5rem]">
-                                    BCA
-                                </div>
-                                <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)]">Academic Foundation</div>
-                                <div className="mt-3 max-w-[12ch] font-display text-[2.35rem] leading-[0.96] tracking-[0.05em] md:text-[3.1rem]">
-                                    BACHELOR OF COMPUTER APPLICATION
-                                </div>
-                                <div className="mt-5 font-serif text-[1.35rem] italic md:text-[1.55rem]">G.T.N Arts College</div>
-                                <p className="mt-5 max-w-[48ch] text-[0.72rem] leading-[1.9] text-black/62">
-                                    Built my base in programming, software fundamentals, and practical problem solving while sharpening the discipline I now bring into product design and frontend engineering.
-                                </p>
-                            </div>
+                    <div className="flex flex-col gap-6">
+                        {educations.map((education, index) => (
+                            <div key={education.degree} className="reveal border-2 border-[var(--black)]">
+                                <div className="grid md:grid-cols-[1.2fr_0.8fr]">
+                                    <div className="relative overflow-hidden border-b-2 border-[var(--black)] px-8 py-10 md:border-b-0 md:border-r-2 md:px-10 md:py-12">
+                                        <div className="pointer-events-none absolute right-4 top-2 font-display text-[3rem] leading-none text-black/5 md:text-[5rem]">
+                                            {index + 1}
+                                        </div>
+                                        <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)]">{education.status}</div>
+                                        <div className="mt-3 max-w-[20ch] font-display text-[1.75rem] leading-[0.96] tracking-[0.05em] md:text-[2.35rem]">
+                                            {education.degree}
+                                        </div>
+                                        <div className="mt-5 font-serif text-[1.1rem] italic md:text-[1.35rem]">{education.university}</div>
+                                        <p className="mt-5 max-w-[48ch] text-[0.72rem] leading-[1.9] text-black/62">
+                                            {education.focus}
+                                        </p>
+                                    </div>
 
-                            <div className="grid grid-cols-2 bg-[var(--black)] text-[var(--white)]">
-                                <div className="border-b border-r border-white/15 px-6 py-7 md:px-7">
-                                    <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Period</div>
-                                    <div className="mt-3 font-display text-[1.8rem] leading-none">2020</div>
-                                    <div className="mt-1 text-[0.72rem] text-white/65">to 2023</div>
-                                </div>
-                                <div className="border-b border-white/15 px-6 py-7 md:px-7">
-                                    <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">CGPA</div>
-                                    <div className="mt-3 font-display text-[1.8rem] leading-none text-[var(--accent2)]">8.0</div>
-                                    <div className="mt-1 text-[0.72rem] text-white/65">out of 10</div>
-                                </div>
-                                <div className="border-r border-white/15 px-6 py-7 md:px-7">
-                                    <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Location</div>
-                                    <div className="mt-3 text-[0.78rem] leading-[1.8] text-white/72">Dindigul, Tamil Nadu</div>
-                                </div>
-                                <div className="px-6 py-7 md:px-7">
-                                    <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Focus</div>
-                                    <div className="mt-3 text-[0.78rem] leading-[1.8] text-white/72">Programming, systems thinking, and software fundamentals</div>
+                                    <div className="grid grid-cols-2 bg-[var(--black)] text-[var(--white)]">
+                                        <div className="border-b border-r border-white/15 px-6 py-7 md:px-7">
+                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Period</div>
+                                            <div className="mt-3 font-display text-[1.4rem] leading-none text-[0.85rem]">{education.period}</div>
+                                        </div>
+                                        {education.cgpa ? (
+                                            <div className="border-b border-white/15 px-6 py-7 md:px-7">
+                                                <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">CGPA</div>
+                                                <div className="mt-3 font-display text-[1.8rem] leading-none text-[var(--accent2)]">{education.cgpa}</div>
+                                                <div className="mt-1 text-[0.72rem] text-white/65">out of 10</div>
+                                            </div>
+                                        ) : (
+                                            <div className="border-b border-white/15 px-6 py-7 md:px-7">
+                                                <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Status</div>
+                                                <div className="mt-3 text-[0.72rem] leading-[1.8] text-white/72">In Progress</div>
+                                            </div>
+                                        )}
+                                        <div className="border-r border-white/15 px-6 py-7 md:px-7">
+                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Location</div>
+                                            <div className="mt-3 text-[0.78rem] leading-[1.8] text-white/72">{education.location}</div>
+                                        </div>
+                                        <div className="px-6 py-7 md:px-7">
+                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Field</div>
+                                            <div className="mt-3 text-[0.78rem] leading-[1.8] text-white/72">{education.degree.split(' ').slice(0, 2).join(' ')}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </section>
 

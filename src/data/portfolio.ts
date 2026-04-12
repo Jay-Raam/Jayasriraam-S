@@ -45,6 +45,16 @@ export type ProcessStep = {
   text: string;
 };
 
+export type EducationItem = {
+  degree: string;
+  university: string;
+  location: string;
+  period: string;
+  status: string;
+  cgpa?: string;
+  focus: string;
+};
+
 export type MusicTrack = {
   title: string;
   artist: string;
@@ -72,6 +82,26 @@ export const navLinks: NavLink[] = [
   { href: '#projects', label: 'Projects' },
   { href: '#blog', label: 'Blog' },
   { href: '#contact', label: 'Contact' },
+];
+
+export const educations: EducationItem[] = [
+  {
+    degree: 'BACHELOR OF COMPUTER APPLICATION',
+    university: 'G.T.N Arts College',
+    location: 'Dindigul, Tamil Nadu',
+    period: '2020 - 2023',
+    status: 'Completed',
+    cgpa: '8.0',
+    focus: 'Programming, systems thinking, and software fundamentals',
+  },
+  {
+    degree: 'MASTER OF COMPUTER APPLICATIONS',
+    university: 'Bharathidasan University',
+    location: 'Tiruchirappalli, Tamil Nadu',
+    period: '2025 - 2027',
+    status: 'Currently Studying',
+    focus: 'Advanced software architecture, distributed systems, and enterprise solutions',
+  },
 ];
 
 export const blogDetails: BlogPost[] = [
