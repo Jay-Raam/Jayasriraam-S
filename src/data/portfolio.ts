@@ -130,7 +130,7 @@ export const skillCategories: SkillCategory[] = [
   {
     title: 'Frontend',
     icon: 'frontend',
-    tags: ['React.js', 'Next.js', 'TypeScript', 'JavaScript ES6+', 'HTML5', 'CSS3', 'Tailwind CSS', 'Material UI', 'Ant Design', 'SCSS'],
+    tags: ['React.js', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Material UI', 'Ant Design', 'SCSS'],
   },
   {
     title: 'State & Mobile',
@@ -140,12 +140,12 @@ export const skillCategories: SkillCategory[] = [
   {
     title: 'Backend',
     icon: 'backend',
-    tags: ['Node.js', 'Express.js', 'GraphQL', 'GraphQL Yoga', 'REST APIs', 'Firebase', 'MongoDB'],
+    tags: ['Node.js', 'Express.js', 'GraphQL', 'GraphQL Yoga', 'Python', 'Firebase', 'MongoDB'],
   },
   {
     title: 'Real-Time & IoT',
     icon: 'realtime',
-    tags: ['MQTT', 'WebSocket', 'Chart.js', 'Firebase Realtime DB', 'Cloud Messaging'],
+    tags: ['MQTT', 'WebSocket', 'Three.js', 'Redis', 'Cloud Messaging'],
   },
   {
     title: 'Tools & Design',
@@ -153,10 +153,10 @@ export const skillCategories: SkillCategory[] = [
     tags: ['Git', 'GitHub', 'Postman', 'Figma', 'CI/CD Pipelines'],
   },
   {
-    title: 'Architecture',
-    icon: 'architecture',
-    tags: ['MERN Stack', 'SOLID Principles', 'Custom Hooks', 'RBAC', 'JWT Auth'],
-  },
+  title: 'Hoobies & Interests',
+  icon: 'architecture',
+  tags: ['Gen AI', 'Prompt Engineering', 'Chatbots', "Writing", 'Anime', 'Music', 'Travel'],
+}
 ];
 
 export const experiences: ExperienceItem[] = [

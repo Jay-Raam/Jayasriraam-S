@@ -284,7 +284,7 @@ function App() {
 
                 <section id="skills" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="01" title="TECH STACK" />
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                         {skillCategories.map((category) => (
                             <div
                                 key={category.title}
@@ -334,7 +334,7 @@ function App() {
 
                 <section id="projects" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="03" title="KEY PROJECTS" />
-                    <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                         {projects.map((project) => (
                             <button
                                 type="button"
@@ -437,7 +437,7 @@ function App() {
 
                 <section id="achievements" className="border-b-2 border-[var(--black)] bg-[var(--white)] px-6 py-20 text-[var(--black)] md:px-12 md:py-28">
                     <SectionHeader number="06" title="ACHIEVEMENTS" />
-                    <div className="grid grid-cols-1 md:grid-cols-2">
+                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                         {achievements.map((achievement) => (
                             <div
                                 key={achievement.title}
@@ -453,8 +453,54 @@ function App() {
                     </div>
                 </section>
 
+                <section id="blog" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
+                    <SectionHeader number="07" title="BLOG WRITINGS" />
+
+                    <div className="reveal mb-8 flex justify-start md:mb-10 md:justify-end">
+                        <a
+                            href="https://jayasriraam.blogspot.com/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex w-fit items-center gap-2 border-2 border-[var(--black)] px-4 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-[var(--black)] no-underline transition-colors duration-200 hover:bg-[var(--black)] hover:text-[var(--white)]"
+                        >
+                            View all posts <span className="text-[0.9rem]">↗</span>
+                        </a>
+                    </div>
+
+                    <div className="grid mb-4 gap-3 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                        {blogDetails
+                            .filter((post) => post.available)
+                            .map((post) => (
+                                <a
+                                    key={post.url}
+                                    href={post.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="reveal mb-4 group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
+                                >
+                                    <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
+                                        <img
+                                            src={post.image}
+                                            alt={post.title}
+                                            loading="lazy"
+                                            className="h-full w-full object-cover grayscale transition-opacity duration-300 group-hover:opacity-90"
+                                            referrerPolicy="no-referrer"
+                                        />
+                                    </div>
+                                    <div className="px-6 py-6">
+                                        <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
+                                        <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
+                                        <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/65 transition-colors duration-300 group-hover:text-white/80">
+                                            Read article <span className="text-[0.9rem]">↗</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                    </div>
+                </section>
+
                 <section id="music" className="overflow-hidden border-b-2 border-[var(--black)] bg-[var(--black)] px-6 py-20 text-[var(--white)] md:px-12 md:py-28">
-                    <SectionHeader number="07" title="FRESH TUNES" inverted />
+                    <SectionHeader number="08" title="FRESH TUNES" inverted />
                     <p className="reveal mb-12 max-w-[480px] text-[0.72rem] leading-[1.8] text-white/45">
                         A few songs I can recommend if you're looking for some fresh tunes — Tamil cinema classics that never leave the playlist.
                     </p>
@@ -490,51 +536,6 @@ function App() {
                         <div className="text-[0.65rem] leading-[1.7] tracking-[0.05em] text-white/40">
                             Tamil classics on repeat — every line feels like it knows me.
                         </div>
-                    </div>
-                </section>
-
-                <section id="blog" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
-                    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                        <SectionHeader number="08" title="BLOG WRITINGS" />
-                        <a
-                            href="https://jayasriraam.blogspot.com/"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="reveal inline-flex w-fit items-center gap-2 border-2 border-[var(--black)] px-4 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-[var(--black)] no-underline transition-colors duration-200 hover:bg-[var(--black)] hover:text-[var(--white)]"
-                        >
-                            View all posts <span className="text-[0.9rem]">↗</span>
-                        </a>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                        {blogDetails
-                            .filter((post) => post.available)
-                            .map((post) => (
-                                <a
-                                    key={post.url}
-                                    href={post.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="reveal group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
-                                >
-                                    <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
-                                        <img
-                                            src={post.image}
-                                            alt={post.title}
-                                            loading="lazy"
-                                            className="h-full w-full object-cover grayscale transition-opacity duration-300 group-hover:opacity-90"
-                                            referrerPolicy="no-referrer"
-                                        />
-                                    </div>
-                                    <div className="px-6 py-6">
-                                        <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
-                                        <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
-                                        <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/65 transition-colors duration-300 group-hover:text-white/80">
-                                            Read article <span className="text-[0.9rem]">↗</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            ))}
                     </div>
                 </section>
 
