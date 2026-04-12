@@ -14,7 +14,6 @@ import {
     projects,
     skillCategories,
     type AchievementItem,
-    type ProcessStep,
     type ProjectItem,
     type SkillCategory,
 } from './data/portfolio';
@@ -111,37 +110,12 @@ function AchievementIcon({ icon }: { icon: AchievementItem['icon'] }) {
     }
 }
 
-function ProcessStepRow({ item, index }: { item: ProcessStep; index: number }) {
-    const isEven = index % 2 === 0;
-
-    return (
-        <div
-            className={`reveal group relative md:w-[calc(50%-2.5rem)] ${isEven ? 'md:mr-auto md:pr-10' : 'md:ml-auto md:pl-10'}`}
-            style={{ transitionDelay: `${index * 80}ms` }}
-        >
-            <div className={`absolute top-[2.6rem] hidden h-px w-10 bg-black/20 md:block ${isEven ? 'right-0' : 'left-0'}`} />
-            <div
-                className={`absolute top-[2.6rem] hidden h-4 w-4 -translate-y-1/2 rounded-full border-2 border-[var(--black)] bg-[var(--accent2)] md:block ${isEven ? 'right-[-0.55rem]' : 'left-[-0.55rem]'}`}
-            />
-
-            <div className="relative overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] px-6 py-6 transition-colors duration-300 group-hover:bg-black/[0.02] md:px-8 md:py-7">
-                <div className="absolute inset-y-0 left-0 w-1 bg-[var(--accent2)]" />
-
-                <div className="flex items-center justify-between gap-3">
-                    <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)] transition-colors duration-300 group-hover:text-black/60">
-                        Step {item.step}
-                    </div>
-                    <div className="font-display text-[2rem] leading-none text-black/15">{item.step}</div>
-                </div>
-
-                <div className="mt-2 font-display text-[1.55rem] leading-[0.95] tracking-[0.04em] md:text-[2rem]">{item.title}</div>
-                <p className="mt-3 max-w-[42ch] text-[0.72rem] leading-[1.9] text-black/68 transition-colors duration-300 group-hover:text-black/85">
-                    {item.text}
-                </p>
-            </div>
-        </div>
-    );
-}
+const processVisuals = [
+    '/1.png',
+    '/2.jpg',
+    '/3.jpg',
+    '/4.jpg',
+];
 
 function App() {
     const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
@@ -429,44 +403,35 @@ function App() {
                     </div>
                 </section>
 
-                <section id="process" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
-                    <SectionHeader number="05" title="WORKFLOW / PROCESS" />
+                <section id="process" className="border-b-2 border-[var(--black)] bg-[var(--black)] px-6 py-20 text-[var(--white)] md:px-12 md:py-28">
+                    <SectionHeader number="05" title="WORKFLOW / PROCESS" inverted />
 
-                    <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_290px] md:items-stretch">
-                        <div className="reveal relative overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] px-6 py-7 md:px-8 md:py-9">
-                            <div className="absolute right-3 top-3 h-10 w-10 border border-black/10" />
-                            <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)]">Design To Deployment</div>
-                            <div className="mt-3 max-w-[18ch] font-display text-[2.2rem] leading-[0.96] tracking-[0.05em] md:text-[3rem]">
-                                A PRODUCT FLOW THAT STAYS CLEAN FROM FIRST DIRECTION TO FINAL SHIP.
-                            </div>
-                            <p className="mt-4 max-w-[64ch] text-[0.72rem] leading-[1.9] text-black/62">
-                                Instead of treating design, build, and release as separate phases, I approach them as one connected workflow with clear handoff points and measurable polish.
-                            </p>
+                    <p className="reveal mb-10 max-w-[640px] text-[0.72rem] leading-[1.9] text-white/55 md:mb-12">
+                        A visual run-through of how I move from clarity to shipment. Each card highlights one stage in the delivery sequence.
+                    </p>
 
-                            <div className="mt-6 flex flex-wrap gap-2">
-                                <span className="border border-black/20 px-3 py-1 text-[0.56rem] uppercase tracking-[0.14em] text-black/65">Strategy First</span>
-                                <span className="border border-black/20 px-3 py-1 text-[0.56rem] uppercase tracking-[0.14em] text-black/65">Build Fast</span>
-                                <span className="border border-black/20 px-3 py-1 text-[0.56rem] uppercase tracking-[0.14em] text-black/65">Ship Clean</span>
-                            </div>
-                        </div>
-
-                        <div className="reveal grid grid-cols-1 gap-3">
-                            <div className="border-2 border-[var(--black)] bg-black/[0.02] px-5 py-5">
-                                <div className="text-[0.55rem] uppercase tracking-[0.2em] text-black/45">Delivery</div>
-                                <div className="mt-2 font-display text-[1.55rem] leading-none text-[var(--accent2)]">Milestone-Driven</div>
-                            </div>
-                            <div className="border-2 border-[var(--black)] px-5 py-5">
-                                <div className="text-[0.55rem] uppercase tracking-[0.2em] text-black/45">Handoffs</div>
-                                <div className="mt-2 text-[0.72rem] leading-[1.8] text-black/65">Clear milestones. Tight handoffs. Fewer revisions.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="relative mt-12">
-                        <div className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-black/15 md:block" />
-                        <div className="flex flex-col gap-6 md:gap-8">
+                    <div className="reveal pb-2">
+                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 md:gap-5">
                             {processSteps.map((item, index) => (
-                                <ProcessStepRow key={item.step} item={item} index={index} />
+                                <article
+                                    key={item.step}
+                                    className="process-strip-card text-left text-[var(--white)] no-underline"
+                                >
+                                    <div className="overflow-hidden border border-white/15 bg-white/5">
+                                        <img
+                                            src={processVisuals[index % processVisuals.length]}
+                                            alt={item.title}
+                                            loading="lazy"
+                                            className="h-[170px] w-full object-cover grayscale transition-opacity duration-300 md:h-[210px]"
+                                        />
+                                    </div>
+
+                                    <div className="mt-3 font-display text-[3.2rem] leading-none tracking-[0.02em] md:text-[3.8rem]">
+                                        {item.step}
+                                    </div>
+                                    <div className="mt-2 text-[0.56rem] font-bold uppercase tracking-[0.14em]">{item.title}</div>
+                                    <p className="mt-2 text-[0.63rem] leading-[1.65] text-white/60">{item.text}</p>
+                                </article>
                             ))}
                         </div>
                     </div>

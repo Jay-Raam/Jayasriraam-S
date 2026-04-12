@@ -395,6 +395,23 @@ button {
   animation-play-state: paused;
 }
 
+.process-strip-card {
+  transition: color 0.25s ease;
+}
+
+.process-strip-card img {
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.process-strip-card:hover {
+  color: var(--accent2);
+}
+
+.process-strip-card:hover img {
+  filter: grayscale(20%);
+  opacity: 0.92;
+}
+
 @media (max-width: 768px) {
   .hero-mark {
     font-size: 10rem;
