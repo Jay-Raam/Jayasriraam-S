@@ -236,11 +236,30 @@ function App() {
                         </div>
                     </div>
 
-                    <div className="relative flex flex-col justify-end px-6 py-10 md:px-12 md:py-16">
+                    <div className="relative flex flex-col px-6 py-10 md:px-12 md:py-16">
                         <div className="absolute right-0 top-16 hidden border-l-2 border-[var(--black)] px-2 py-4 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)] [writing-mode:vertical-lr] md:block">
                             <a href="mailto:jayasriraam.job@gmail.com" className="text-[var(--black)] no-underline">
                                 jayasriraam.job@gmail.com
                             </a>
+                        </div>
+
+                        {/* Notepad with pin */}
+                        <div className="flex flex-1 items-center justify-center py-10">
+                            <div className="notepad-paper">
+                                <div className="notepad-pin" />
+                               <p className="note-open note-tamil">அடியே அழகி! <span className="note-check">✓</span></p>
+                                <div className="note-divider" />
+                                <p className="note-item">→ Next.js · Tailwind CSS</p>
+                                <p className="note-item">→ Node.js · GraphQL</p>
+                                <p className="note-item">→ TypeScript · MERN</p>
+                                <div className="note-divider" />
+                                <p className="note-big">Build fast.</p>
+                                <p className="note-big">Ship clean. <span className="note-check">✓</span></p>
+                                <p className="note-big">Scale smart.</p>
+                                <div className="note-divider" />
+                                <p className="note-small note-tamil">அவளும் நானும்,</p>
+                                <p className="note-small note-tamil">அலையும் கடலும்</p>
+                            </div>
                         </div>
 
                         <div className="mt-auto grid grid-cols-2">
