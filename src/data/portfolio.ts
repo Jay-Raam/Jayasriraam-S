@@ -180,7 +180,7 @@ export const skillCategories: SkillCategory[] = [
   {
     title: 'Tools & Design',
     icon: 'tools',
-    tags: ['Git', 'GitHub', 'Postman', 'Figma', 'CI/CD Pipelines'],
+    tags: ['Git', 'GitHub', 'Postman', 'Figma', 'CI/CD Pipelines', 'Framer',],
   },
   {
   title: 'Hoobies & Interests',
@@ -417,23 +417,23 @@ export const projects: ProjectItem[] = [
 export const processSteps: ProcessStep[] = [
   {
     step: '01',
-    title: 'Design Direction',
-    text: 'I start by defining layout hierarchy, interaction goals, and visual direction so the product has a clear structure before development begins.',
+    title: 'Problem Framing',
+    text: 'I break down product goals into clear system boundaries, defining what to build, what to avoid, and how decisions impact long-term scalability.',
   },
   {
     step: '02',
-    title: 'Component Build',
-    text: 'I translate approved designs into reusable frontend systems with clean components, scalable state flow, and responsive behavior across screens.',
+    title: 'Architecture & Trade-offs',
+    text: 'I design frontend architecture with a focus on maintainability, performance, and team velocity, making conscious trade-offs instead of over-engineering.',
   },
   {
     step: '03',
-    title: 'Integration & Polish',
-    text: 'I connect APIs, real-time services, and business workflows, then optimize loading, edge states, and usability so the product feels production-ready.',
+    title: 'Robust Integration',
+    text: 'I integrate services with production-level thinking, handling failures, edge cases, and real-world unpredictability as first-class concerns.',
   },
   {
     step: '04',
-    title: 'Deploy & Improve',
-    text: 'After launch, I focus on stability, performance improvements, and iteration so the system keeps evolving with product and team needs.',
+    title: 'Sustain & Evolve',
+    text: 'I treat launch as a baseline, continuously improving system reliability, developer experience, and performance as the product scales.',
   },
 ];
 

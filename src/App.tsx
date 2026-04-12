@@ -115,22 +115,27 @@ function ProcessStepRow({ item, index }: { item: ProcessStep; index: number }) {
     const isEven = index % 2 === 0;
 
     return (
-        <div className="group relative grid gap-5 py-8 md:grid-cols-[1fr_88px_1fr] md:gap-0 md:py-10">
-            {/* Node first in DOM → appears above text on mobile */}
-            <div className="relative flex items-start justify-start md:col-start-2 md:row-start-1 md:justify-center">
-                <div className="absolute -bottom-10 -top-10 left-[27px] w-px bg-black/10 md:left-1/2 md:-translate-x-1/2" />
-                <div className="relative z-10 flex h-14 w-14 items-center justify-center border-2 border-[var(--black)] bg-[var(--white)] font-display text-[2rem] leading-none text-[var(--accent2)]">
-                    {item.step}
-                </div>
-            </div>
+        <div
+            className={`reveal group relative md:w-[calc(50%-2.5rem)] ${isEven ? 'md:mr-auto md:pr-10' : 'md:ml-auto md:pl-10'}`}
+            style={{ transitionDelay: `${index * 80}ms` }}
+        >
+            <div className={`absolute top-[2.6rem] hidden h-px w-10 bg-black/20 md:block ${isEven ? 'right-0' : 'left-0'}`} />
+            <div
+                className={`absolute top-[2.6rem] hidden h-4 w-4 -translate-y-1/2 rounded-full border-2 border-[var(--black)] bg-[var(--accent2)] md:block ${isEven ? 'right-[-0.55rem]' : 'left-[-0.55rem]'}`}
+            />
 
-            {/* Content placed into col 1 or col 3, forced into row 1 */}
-            <div className={`relative ${isEven ? 'md:col-start-1 md:row-start-1 md:pr-10 md:text-right' : 'md:col-start-3 md:row-start-1 md:pl-10'}`}>
-                <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)] transition-colors duration-300 group-hover:text-black/50">
-                    Step {item.step}
+            <div className="relative overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] px-6 py-6 transition-colors duration-300 group-hover:bg-black/[0.02] md:px-8 md:py-7">
+                <div className="absolute inset-y-0 left-0 w-1 bg-[var(--accent2)]" />
+
+                <div className="flex items-center justify-between gap-3">
+                    <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)] transition-colors duration-300 group-hover:text-black/60">
+                        Step {item.step}
+                    </div>
+                    <div className="font-display text-[2rem] leading-none text-black/15">{item.step}</div>
                 </div>
+
                 <div className="mt-2 font-display text-[1.55rem] leading-[0.95] tracking-[0.04em] md:text-[2rem]">{item.title}</div>
-                <p className={`mt-3 max-w-[42ch] text-[0.72rem] leading-[1.9] text-black/68 transition-colors duration-300 group-hover:text-black/85${isEven ? ' md:ml-auto' : ''}`}>
+                <p className="mt-3 max-w-[42ch] text-[0.72rem] leading-[1.9] text-black/68 transition-colors duration-300 group-hover:text-black/85">
                     {item.text}
                 </p>
             </div>
@@ -427,18 +432,39 @@ function App() {
                 <section id="process" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="05" title="WORKFLOW / PROCESS" />
 
-                    <div className="reveal">
-                        <div className="max-w-[640px]">
+                    <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_290px] md:items-stretch">
+                        <div className="reveal relative overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] px-6 py-7 md:px-8 md:py-9">
+                            <div className="absolute right-3 top-3 h-10 w-10 border border-black/10" />
                             <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)]">Design To Deployment</div>
-                            <div className="mt-3 font-display text-[2.4rem] leading-[0.96] tracking-[0.05em] md:text-[3.4rem]">
+                            <div className="mt-3 max-w-[18ch] font-display text-[2.2rem] leading-[0.96] tracking-[0.05em] md:text-[3rem]">
                                 A PRODUCT FLOW THAT STAYS CLEAN FROM FIRST DIRECTION TO FINAL SHIP.
                             </div>
-                            <p className="mt-4 text-[0.72rem] leading-[1.9] text-black/60">
+                            <p className="mt-4 max-w-[64ch] text-[0.72rem] leading-[1.9] text-black/62">
                                 Instead of treating design, build, and release as separate phases, I approach them as one connected workflow with clear handoff points and measurable polish.
                             </p>
+
+                            <div className="mt-6 flex flex-wrap gap-2">
+                                <span className="border border-black/20 px-3 py-1 text-[0.56rem] uppercase tracking-[0.14em] text-black/65">Strategy First</span>
+                                <span className="border border-black/20 px-3 py-1 text-[0.56rem] uppercase tracking-[0.14em] text-black/65">Build Fast</span>
+                                <span className="border border-black/20 px-3 py-1 text-[0.56rem] uppercase tracking-[0.14em] text-black/65">Ship Clean</span>
+                            </div>
                         </div>
 
-                        <div className="mt-10 border-2 border-[var(--black)] px-6 md:px-10">
+                        <div className="reveal grid grid-cols-1 gap-3">
+                            <div className="border-2 border-[var(--black)] bg-black/[0.02] px-5 py-5">
+                                <div className="text-[0.55rem] uppercase tracking-[0.2em] text-black/45">Delivery</div>
+                                <div className="mt-2 font-display text-[1.55rem] leading-none text-[var(--accent2)]">Milestone-Driven</div>
+                            </div>
+                            <div className="border-2 border-[var(--black)] px-5 py-5">
+                                <div className="text-[0.55rem] uppercase tracking-[0.2em] text-black/45">Handoffs</div>
+                                <div className="mt-2 text-[0.72rem] leading-[1.8] text-black/65">Clear milestones. Tight handoffs. Fewer revisions.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="relative mt-12">
+                        <div className="absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 bg-black/15 md:block" />
+                        <div className="flex flex-col gap-6 md:gap-8">
                             {processSteps.map((item, index) => (
                                 <ProcessStepRow key={item.step} item={item} index={index} />
                             ))}
@@ -446,7 +472,7 @@ function App() {
                     </div>
                 </section>
 
-                <section id="achievements" className="border-b-2 border-[var(--black)] bg-[var(--white)] px-6 py-20 text-[var(--black)] md:px-12 md:py-28">
+                <section id="achievements" className="bg-[var(--white)] px-6 py-20 text-[var(--black)] md:px-12 md:py-28">
                     <SectionHeader number="06" title="ACHIEVEMENTS" />
                     <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                         {achievements.map((achievement) => (
