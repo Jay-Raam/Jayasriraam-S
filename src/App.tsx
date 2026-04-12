@@ -526,7 +526,7 @@ function App() {
             </main>
 
             <footer className="flex flex-wrap items-center justify-center gap-2 border-t-2 border-[var(--black)] bg-[var(--black)] px-6 py-5 text-center text-[0.6rem] tracking-[0.1em] text-white/30 md:justify-between md:px-12">
-                <span>© 2025 Jayasriraam S</span>
+                <span>© 2023 Jayasriraam S</span>
                 <span>Full Stack Developer · Chennai, India</span>
                 <span>Designed with ♥</span>
             </footer>
