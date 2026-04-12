@@ -39,7 +39,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
 
                             {project.image ? (
                                 <div className="mb-8 overflow-hidden">
-                                    <img src={project.image} alt={`${project.title} preview`} className="h-auto w-25 object-cover" loading="lazy" />
+                                    <img src={project.image} alt={`${project.title} preview`} className="h-auto w-25 object-cover grayscale" loading="lazy" />
                                 </div>
                             ) : null}
 

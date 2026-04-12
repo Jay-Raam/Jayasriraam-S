@@ -4,6 +4,7 @@ import { ProjectModal } from './components/ProjectModal';
 import { SectionHeader } from './components/SectionHeader';
 import {
     achievements,
+    blogDetails,
     contactLinks,
     experiences,
     heroStats,
@@ -358,7 +359,7 @@ function App() {
                                         </span>
                                     ))}
                                 </div>
-                                <div className="relative mt-4 inline-block text-[1.2rem] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[var(--accent2)]">
+                                <div className="relative mt-4 inline-block text-[1.2rem] transition-colors duration-300 group-hover:text-[var(--accent2)]">
                                     ↗
                                 </div>
                                 <span className="relative mt-2 block text-[0.55rem] uppercase tracking-[0.15em] text-[var(--gray)] transition-colors duration-300 group-hover:text-white/30">
@@ -467,7 +468,7 @@ function App() {
                                     href={track.link}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="music-card block w-[140px] flex-none overflow-hidden border border-white/12 bg-white/5 text-inherit no-underline transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent2)] hover:bg-white/10 md:w-[190px]"
+                                    className="music-card block w-[140px] flex-none overflow-hidden border border-white/12 bg-white/5 text-inherit no-underline transition-colors duration-300 hover:border-[var(--accent2)] hover:bg-white/10 md:w-[190px]"
                                 >
                                     <div className="relative aspect-square bg-[#1a1a1a]">
                                         <img src={track.image} alt={track.title} className="h-full w-full object-cover" loading="lazy" />
@@ -487,8 +488,53 @@ function App() {
 
                     <div className="reveal mt-12 inline-flex items-center gap-4 border border-white/12 px-6 py-5">
                         <div className="text-[0.65rem] leading-[1.7] tracking-[0.05em] text-white/40">
-                            Personal playlist picks — Tamil cinema classics always on repeat.
+                            Tamil classics on repeat — every line feels like it knows me.
                         </div>
+                    </div>
+                </section>
+
+                <section id="blog" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
+                    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                        <SectionHeader number="08" title="BLOG WRITINGS" />
+                        <a
+                            href="https://jayasriraam.blogspot.com/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="reveal inline-flex w-fit items-center gap-2 border-2 border-[var(--black)] px-4 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-[var(--black)] no-underline transition-colors duration-200 hover:bg-[var(--black)] hover:text-[var(--white)]"
+                        >
+                            View all posts <span className="text-[0.9rem]">↗</span>
+                        </a>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                        {blogDetails
+                            .filter((post) => post.available)
+                            .map((post) => (
+                                <a
+                                    key={post.url}
+                                    href={post.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="reveal group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
+                                >
+                                    <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
+                                        <img
+                                            src={post.image}
+                                            alt={post.title}
+                                            loading="lazy"
+                                            className="h-full w-full object-cover grayscale transition-opacity duration-300 group-hover:opacity-90"
+                                            referrerPolicy="no-referrer"
+                                        />
+                                    </div>
+                                    <div className="px-6 py-6">
+                                        <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
+                                        <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
+                                        <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/65 transition-colors duration-300 group-hover:text-white/80">
+                                            Read article <span className="text-[0.9rem]">↗</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
                     </div>
                 </section>
 
@@ -513,7 +559,7 @@ function App() {
                                     href={contact.href}
                                     target={contact.href.startsWith('http') ? '_blank' : undefined}
                                     rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
-                                    className="flex items-center gap-6 border-b border-white/10 py-6 text-[var(--white)] no-underline transition-all duration-200 hover:pl-2 hover:text-[var(--accent2)]"
+                                    className="flex items-center gap-6 border-b border-white/10 py-6 text-[var(--white)] no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
                                 >
                                     <span className="w-20 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)]">{contact.label}</span>
                                     <span className="font-syne text-[0.8rem] font-bold md:text-[0.95rem]">{contact.value}</span>

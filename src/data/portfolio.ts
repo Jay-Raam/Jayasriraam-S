@@ -52,6 +52,14 @@ export type MusicTrack = {
   link: string;
 };
 
+export type BlogPost = {
+  title: string;
+  image: string;
+  date: string;
+  url: string;
+  available: boolean;
+};
+
 export type ContactLink = {
   label: string;
   value: string;
@@ -62,7 +70,53 @@ export const navLinks: NavLink[] = [
   { href: '#education', label: 'Education' },
   { href: '#skills', label: 'Skills' },
   { href: '#projects', label: 'Projects' },
+  { href: '#blog', label: 'Blog' },
   { href: '#contact', label: 'Contact' },
+];
+
+export const blogDetails: BlogPost[] = [
+  {
+    title: 'பயணம் ஆண்டிபட்டி - கோழிப்பண்ணை',
+    image: '/Blog/blog3.jpeg',
+    date: 'MAY 2024',
+    url: 'https://jayasriraam.blogspot.com/2024/04/blog-post.html',
+    available: true,
+  },
+  {
+    title: 'என் கொள்கை',
+    image: '/Blog/Kolkai.webp',
+    date: 'MAY 2024',
+    url: 'https://jayasriraam.blogspot.com/2024/03/blog-post.html',
+    available: true,
+  },
+  {
+    title: 'முதல் பரிசு',
+    image: '/Blog/blog2.jpeg',
+    date: 'APR 2024',
+    url: 'https://jayasriraam.blogspot.com/2024/02/blog-post.html',
+    available: true,
+  },
+  {
+    title: 'முதல் சந்திப்பு',
+    image: '/Blog/blog4.png',
+    date: 'Oct 2024',
+    url: 'https://jayasriraam.blogspot.com/2024/09/blog-post.html',
+    available: true,
+  },
+  {
+    title: 'காதல் - ஒரு இன்ப சுற்றுலா',
+    image: '/Blog/blog1.jpeg',
+    date: 'Oct 2024',
+    url: 'https://jayasriraam.blogspot.com/2024/10/blog-post.html',
+    available: true,
+  },
+  {
+    title: 'காத்திருப்பு',
+    image: '/Blog/image6.webp',
+    date: 'Aug 2025',
+    url: 'https://jayasriraam.blogspot.com/2025/08/blog-post.html',
+    available: true,
+  },
 ];
 
 export const heroStats = [
@@ -378,6 +432,12 @@ export const achievements: AchievementItem[] = [
 
 export const musicTracks: MusicTrack[] = [
   {
+    title: 'Aathadi Aathadi',
+    artist: 'SS Thaman',
+    image: '/songs/106.jpg',
+    link: 'https://www.jiosaavn.com/song/aathadi-aathadi/QSAbWUEBRnA',
+  },
+  {
     title: 'Annul Maelae',
     artist: 'Harris Jayaraj, Sudha Ragunathan',
     image: '/songs/103.jpg',
@@ -443,6 +503,12 @@ export const musicTracks: MusicTrack[] = [
     image: '/songs/102.jpg',
     link: 'https://www.jiosaavn.com/song/thaaliyae-thevaiyillai/JxE6VBxIAnk',
   },
+    {
+    title: 'Moongil Thottam',
+    artist: 'A.R. Rahman, Vijay Yesudas',
+    image: '/songs/04.jpg',
+    link: 'https://www.jiosaavn.com/song/moongil-thottam/KRE4WD54BEk',
+  },
   {
     title: 'Love Pannu (Oru Punnagai Poove)',
     artist: 'Yuvan Shankar Raja',
@@ -474,10 +540,10 @@ export const musicTracks: MusicTrack[] = [
     link: 'https://www.jiosaavn.com/song/chennai-sentamizh/RR4YcBBGX2U',
   },
   {
-    title: 'Chithirai Nela',
+    title: 'Adiye',
     artist: 'A.R. Rahman, Vijay Yesudas',
     image: '/songs/04.jpg',
-    link: 'https://www.jiosaavn.com/song/chithirai-nela/QBsmBAJSBUs',
+    link: 'https://www.jiosaavn.com/song/adiye/J10IAB1hTQM',
   },
   {
     title: 'Kumaari',

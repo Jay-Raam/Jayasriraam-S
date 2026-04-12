@@ -141,7 +141,7 @@ button {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 .button-primary {
@@ -150,7 +150,6 @@ button {
 }
 
 .button-primary:hover {
-  transform: translateY(-2px);
   background: var(--accent2);
   border-color: var(--accent2);
 }
@@ -161,7 +160,6 @@ button {
 }
 
 .button-secondary:hover {
-  transform: translateY(-2px);
   background: var(--black);
   color: var(--white);
 }
@@ -284,11 +282,7 @@ button {
 }
 
 .music-card:hover .vinyl-overlay {
-  opacity: 1;
-}
-
-.music-card:hover .vinyl-spin {
-  animation-play-state: running;
+  opacity: 0.65;
 }
 
 .vinyl-spin {
