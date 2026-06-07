@@ -462,10 +462,10 @@ export const achievements: AchievementItem[] = [
 
 export const musicTracks: MusicTrack[] = [
   {
-    title: 'Aathadi Aathadi',
-    artist: 'SS Thaman',
-    image: '/songs/106.jpg',
-    link: 'https://www.jiosaavn.com/song/aathadi-aathadi/QSAbWUEBRnA',
+    title: 'Uyire Un Uyirena',
+    artist: 'Anirudh Ravichander',
+    image: '/songs/12.jpg',
+    link: 'https://www.jiosaavn.com/song/uyire-un-uyirena/PRgBByV7Dkc',
   },
   {
     title: 'Annul Maelae',
@@ -506,19 +506,19 @@ export const musicTracks: MusicTrack[] = [
   {
     title: 'Paravaiye Engu Irukkirai',
     artist: 'Yuvan Shankar Raja, Ilaiyaraaja',
-    image: '/songs/6.jpg',
+ image: '/songs/8.jpg',
     link: 'https://www.jiosaavn.com/song/paravaiye-engu-irukkirai/L1ocBzECc2Q',
   },
   {
     title: 'Rasathi',
     artist: 'Ilaiyaraaja, Shahul Hameed',
-    image: '/songs/7.jpg',
+    image: '/songs/6.jpg',
     link: 'https://www.jiosaavn.com/song/rasathi/FT8nbkx3RHc',
   },
   {
     title: 'Poongatrile',
     artist: 'A.R. Rahman, Unnikrishnan',
-    image: '/songs/8.jpg',
+    image: '/songs/7.jpg',
     link: 'https://www.jiosaavn.com/song/poongatrile/RgcHSTkGeEY',
   },
   {
@@ -546,12 +546,6 @@ export const musicTracks: MusicTrack[] = [
     link: 'https://www.jiosaavn.com/song/love-pannu-oru-punnagai-poove/SRAaWjlWB1Y',
   },
   {
-    title: 'Uyire Un Uyirena',
-    artist: 'A.R. Rahman, Hariharan',
-    image: '/songs/12.jpg',
-    link: 'https://www.jiosaavn.com/song/uyire-un-uyirena/PRgBByV7Dkc',
-  },
-  {
     title: 'Avatha Paiya',
     artist: 'Yuvan Shankar Raja, Sathyan',
     image: '/songs/01.jpg',
@@ -574,6 +568,12 @@ export const musicTracks: MusicTrack[] = [
     artist: 'A.R. Rahman, Vijay Yesudas',
     image: '/songs/04.jpg',
     link: 'https://www.jiosaavn.com/song/adiye/J10IAB1hTQM',
+  },
+    {
+    title: 'Aathadi Aathadi',
+    artist: 'SS Thaman',
+    image: '/songs/106.jpg',
+    link: 'https://www.jiosaavn.com/song/aathadi-aathadi/QSAbWUEBRnA',
   },
   {
     title: 'Kumaari',

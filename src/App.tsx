@@ -18,6 +18,10 @@ import {
     type SkillCategory,
 } from './data/portfolio';
 
+import { WorkflowSection } from './components/WorkflowSection'
+
+import { FreshTunes } from './components/FreshTunes';
+
 function SkillIcon({ icon }: { icon: SkillCategory['icon'] }) {
     const className = 'mb-4 block h-9 w-9 stroke-current stroke-[1.8]';
 
@@ -247,7 +251,7 @@ function App() {
                         <div className="flex flex-1 items-center justify-center py-10">
                             <div className="notepad-paper">
                                 <div className="notepad-pin" />
-                               <p className="note-open note-tamil">அடியே அழகி! <span className="note-check">✓</span></p>
+                                <p className="note-open note-tamil">அடியே அழகி! <span className="note-check">✓</span></p>
                                 <div className="note-divider" />
                                 <p className="note-item">→ Next.js · Tailwind CSS</p>
                                 <p className="note-item">→ Node.js · GraphQL</p>
@@ -422,39 +426,7 @@ function App() {
                     </div>
                 </section>
 
-                <section id="process" className="border-b-2 border-[var(--black)] bg-[var(--black)] px-6 py-20 text-[var(--white)] md:px-12 md:py-28">
-                    <SectionHeader number="05" title="WORKFLOW / PROCESS" inverted />
-
-                    <p className="reveal mb-10 max-w-[640px] text-[0.72rem] leading-[1.9] text-white/55 md:mb-12">
-                        A visual run-through of how I move from clarity to shipment. Each card highlights one stage in the delivery sequence.
-                    </p>
-
-                    <div className="reveal pb-2">
-                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 md:gap-5">
-                            {processSteps.map((item, index) => (
-                                <article
-                                    key={item.step}
-                                    className="process-strip-card text-left text-[var(--white)] no-underline"
-                                >
-                                    <div className="overflow-hidden border border-white/15 bg-white/5">
-                                        <img
-                                            src={processVisuals[index % processVisuals.length]}
-                                            alt={item.title}
-                                            loading="lazy"
-                                            className="h-[170px] w-full object-cover grayscale transition-opacity duration-300 md:h-[210px]"
-                                        />
-                                    </div>
-
-                                    <div className="mt-3 font-display text-[3.2rem] leading-none tracking-[0.02em] md:text-[3.8rem]">
-                                        {item.step}
-                                    </div>
-                                    <div className="mt-2 text-[0.56rem] font-bold uppercase tracking-[0.14em]">{item.title}</div>
-                                    <p className="mt-2 text-[0.63rem] leading-[1.65] text-white/60">{item.text}</p>
-                                </article>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                <WorkflowSection />
 
                 <section id="achievements" className="bg-[var(--white)] px-6 py-20 text-[var(--black)] md:px-12 md:py-28">
                     <SectionHeader number="06" title="ACHIEVEMENTS" />
@@ -520,45 +492,7 @@ function App() {
                     </div>
                 </section>
 
-                <section id="music" className="overflow-hidden border-b-2 border-[var(--black)] bg-[var(--black)] px-6 py-20 text-[var(--white)] md:px-12 md:py-28">
-                    <SectionHeader number="08" title="FRESH TUNES" inverted />
-                    <p className="reveal mb-12 max-w-[480px] text-[0.72rem] leading-[1.8] text-white/45">
-                        A few songs I can recommend if you're looking for some fresh tunes — Tamil cinema classics that never leave the playlist.
-                    </p>
-
-                    {/* Auto-scrolling marquee — duplicated list creates seamless loop */}
-                    <div className="reveal overflow-hidden pb-4">
-                        <div className="marquee-track flex w-max gap-6 py-2">
-                            {[...musicTracks, ...musicTracks].map((track, i) => (
-                                <a
-                                    key={`${track.title}-${i}`}
-                                    href={track.link}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="music-card block w-[140px] flex-none overflow-hidden border border-white/12 bg-white/5 text-inherit no-underline transition-colors duration-300 hover:border-[var(--accent2)] hover:bg-white/10 md:w-[190px]"
-                                >
-                                    <div className="relative aspect-square bg-[#1a1a1a]">
-                                        <img src={track.image} alt={track.title} className="h-full w-full object-cover" loading="lazy" />
-                                        <div className="vinyl-overlay absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition-opacity duration-300">
-                                            <div className="vinyl-spin h-[60px] w-[60px] rounded-full border-[3px] border-[#444]" />
-                                        </div>
-                                    </div>
-                                    <div className="px-4 py-4">
-                                        <div className="font-syne text-[0.78rem] font-bold leading-[1.3] text-[var(--white)]">{track.title}</div>
-                                        <div className="mt-1 text-[0.62rem] tracking-[0.05em] text-white/45">{track.artist}</div>
-                                        <div className="mt-2 text-[0.6rem] uppercase tracking-[0.1em] text-[var(--accent2)]">Open Track</div>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="reveal mt-12 inline-flex items-center gap-4 border border-white/12 px-6 py-5">
-                        <div className="text-[0.65rem] leading-[1.7] tracking-[0.05em] text-white/40">
-                            Tamil classics on repeat — every line feels like it knows me.
-                        </div>
-                    </div>
-                </section>
+                <FreshTunes tracks={musicTracks} />
 
                 <section id="contact" className="relative overflow-hidden bg-[var(--black)] px-6 py-20 text-[var(--white)] md:px-12 md:py-28">
                     <div className="pointer-events-none absolute bottom-[-3rem] right-[-1rem] font-display text-[8rem] leading-none text-white/5 md:text-[18rem]">
