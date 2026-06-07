@@ -10,7 +10,6 @@ import {
     experiences,
     heroStats,
     musicTracks,
-    processSteps,
     projects,
     skillCategories,
     type AchievementItem,
@@ -18,7 +17,7 @@ import {
     type SkillCategory,
 } from './data/portfolio';
 
-import { WorkflowSection } from './components/WorkflowSection'
+import { WorkflowSection } from './components/Workflowsection';
 
 import { FreshTunes } from './components/FreshTunes';
 
@@ -113,13 +112,6 @@ function AchievementIcon({ icon }: { icon: AchievementItem['icon'] }) {
             );
     }
 }
-
-const processVisuals = [
-    '/1.png',
-    '/2.jpg',
-    '/3.jpg',
-    '/4.jpg',
-];
 
 function App() {
     const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);

@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/components/navbar.tsx","./src/components/projectmodal.tsx","./src/components/sectionheader.tsx","./src/data/portfolio.ts"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/freshtunes.tsx","./src/components/navbar.tsx","./src/components/projectmodal.tsx","./src/components/sectionheader.tsx","./src/components/workflowsection.d.ts","./src/data/portfolio.ts"],"version":"5.9.3"}

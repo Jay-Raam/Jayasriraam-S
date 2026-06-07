@@ -77,7 +77,6 @@ function SongCard({
     const imageBlur = useTransform(localProgress, [0, 0.2, 0.7, 1], [12, 0, 0, 8]);
 
     const textY = useTransform(localProgress, [0, 0.35, 0.65, 1], [28, 0, 0, -20]);
-    const textOpacity = useTransform(localProgress, [0, 0.3, 0.65, 1], [0, 1, 1, 0]);
 
     const overlayOpacity = useTransform(localProgress, [0, 0.25, 0.7, 1], [0, 1, 1, 0]);
 
@@ -294,16 +293,7 @@ function ScrollHint({ scrollProgress }: { scrollProgress: MotionValue<number> })
 /* ─────────────────────────────────────────────
    Section counter / heading
 ───────────────────────────────────────────── */
-function SectionMeta({
-    scrollProgress,
-    total,
-}: {
-    scrollProgress: MotionValue<number>;
-    total: number;
-}) {
-    // Current track index (0-based)
-    const slotSize = 1 / total;
-
+function SectionMeta() {
     return (
         <div className="absolute left-6 top-8 flex flex-col gap-1 md:left-10">
             <div className="text-[0.52rem] mt-2.5 font-bold uppercase tracking-[0.3em] text-white/30">
@@ -364,7 +354,7 @@ export function FreshTunes({ tracks }: FreshTunesProps) {
                 <div className="absolute bottom-4 right-4 h-8 w-8 border-b border-r border-white/10 md:bottom-8 md:right-8 md:h-12 md:w-12" />
 
                 {/* Section label */}
-                <SectionMeta scrollProgress={scrollYProgress} total={tracks.length} />
+                <SectionMeta />
 
                 {/* ── Song cards stacked, all absolute ── */}
                 <div className="absolute inset-0">
