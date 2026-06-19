@@ -98,7 +98,7 @@ export const educations: EducationItem[] = [
     degree: 'MASTER OF COMPUTER APPLICATIONS',
     university: 'Bharathidasan University',
     location: 'Tiruchirappalli, Tamil Nadu',
-    period: '2025 - 2027',
+    period: '2026 - 2028',
     status: 'Currently Studying',
     focus: 'Advanced software architecture, distributed systems, and enterprise solutions',
   },
@@ -192,7 +192,7 @@ export const skillCategories: SkillCategory[] = [
 export const experiences: ExperienceItem[] = [
   {
     date: 'Dec 2024 — Present',
-    role: 'Junior Software Developer',
+    role: 'Software Developer',
     company: 'PPV Technology Private Limited',
     location: 'Chennai, TN',
     bullets: [
@@ -205,7 +205,7 @@ export const experiences: ExperienceItem[] = [
   },
   {
     date: 'May 2023 — Dec 2024',
-    role: 'Junior Developer',
+    role: 'Full Stack Developer',
     company: 'Akkenam Technologies',
     location: 'Dindigul, TN',
     bullets: [
@@ -616,6 +616,6 @@ export const musicTracks: MusicTrack[] = [
 export const contactLinks: ContactLink[] = [
   { label: 'Email', value: 'jayasriraam.job@gmail.com', href: 'mailto:jayasriraam.job@gmail.com' },
   { label: 'Phone', value: '+91 97901 61669', href: 'tel:+919790161669' },
-  { label: 'GitHub', value: 'github.com/jayasriraam', href: 'https://github.com/jayasriraam' },
+  { label: 'GitHub', value: 'github.com/Jay-Raam', href: 'https://github.com/Jay-Raam' },
   { label: 'LinkedIn', value: 'linkedin.com/in/jayasriraam', href: 'https://linkedin.com/in/jayasriraam' },
 ];

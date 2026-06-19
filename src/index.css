@@ -439,6 +439,10 @@ button {
   line-height: 28px;
 }
 
+.notepad-paper p {
+  margin: 0;
+}
+
 .notepad-pin {
   position: absolute;
   top: -13px;
@@ -498,9 +502,8 @@ button {
 }
 
 .note-divider {
-  height: 1px;
-  background: rgba(0, 0, 0, 0.09);
-  margin: 6px 0;
+  height: 12px;
+  margin: 4px 0;
 }
 
 .note-tamil {
