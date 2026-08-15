@@ -21,6 +21,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
             }}
         >
             <motion.div
+                data-lenis-prevent
                 className="modal-scrollbar max-h-[88vh] w-full max-w-4xl overflow-y-auto border-2 border-[var(--black)] bg-[var(--white)]"
                 initial={{ y: 48, scale: 0.96, opacity: 0 }}
                 animate={{ y: 0, scale: 1, opacity: 1 }}
