@@ -1,7 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
+import Lenis from 'lenis';
 import { Navbar } from './components/Navbar';
 import { ProjectModal } from './components/ProjectModal';
 import { SectionHeader } from './components/SectionHeader';
+import { Preloader } from './components/Preloader';
+import { RotatingBadge } from './components/RotatingBadge';
+import { CustomCursor } from './components/CustomCursor';
+import { ScrollProgress } from './components/ScrollProgress';
+import { Marquee } from './components/Marquee';
+import { CountUp } from './components/CountUp';
+import { HorizontalProjects } from './components/HorizontalProjects';
+import { AchievementIcon } from './components/AchievementIcon';
+import { AchievementsMobile } from './components/AchievementsMobile';
 import {
     achievements,
     blogDetails,
@@ -12,7 +23,7 @@ import {
     musicTracks,
     projects,
     skillCategories,
-    type AchievementItem,
+    type BlogPost,
     type ProjectItem,
     type SkillCategory,
 } from './data/portfolio';
@@ -21,8 +32,32 @@ import { WorkflowSection } from './components/Workflowsection';
 
 import { FreshTunes } from './components/FreshTunes';
 
+const SKILL_MARQUEE = [
+    'React.js',
+    'Next.js',
+    'Node.js',
+    'GraphQL',
+    'TypeScript',
+    'MongoDB',
+    'MQTT',
+    'Tailwind',
+    'Firebase',
+    'Redux',
+    'Ionic',
+    'Redis',
+];
+
+const CONTACT_MARQUEE = [
+    'Open to work',
+    "Let's build something",
+    'Freelance & collabs',
+    'Full Stack · Chennai',
+];
+
+const BLOG_MARQUEE = ['Longform writing', 'Tamil essays', 'Stories & travel', 'Life & code'];
+
 function SkillIcon({ icon }: { icon: SkillCategory['icon'] }) {
-    const className = 'mb-4 block h-9 w-9 stroke-current stroke-[1.8]';
+    const className = 'block h-9 w-9 stroke-current stroke-[1.8]';
 
     switch (icon) {
         case 'frontend':
@@ -79,45 +114,96 @@ function SkillIcon({ icon }: { icon: SkillCategory['icon'] }) {
     }
 }
 
-function AchievementIcon({ icon }: { icon: AchievementItem['icon'] }) {
-    switch (icon) {
-        case 'bars':
-            return (
-                <svg viewBox="0 0 26 26" className="h-7 w-7 stroke-current stroke-[1.8]" fill="none">
-                    <rect x="2" y="14" width="6" height="10" rx="1" />
-                    <rect x="10" y="9" width="6" height="15" rx="1" />
-                    <rect x="18" y="4" width="6" height="20" rx="1" />
-                </svg>
-            );
-        case 'gear':
-            return (
-                <svg viewBox="0 0 26 26" className="h-7 w-7 stroke-current stroke-[1.8]" fill="none">
-                    <circle cx="13" cy="13" r="4" />
-                    <path d="M13 2v3M13 21v3M2 13h3M21 13h3M5.6 5.6l2.1 2.1M18.3 18.3l2.1 2.1M18.3 7.7l-2.1 2.1M7.7 18.3l-2.1 2.1" />
-                </svg>
-            );
-        case 'bolt':
-            return (
-                <svg viewBox="0 0 26 26" className="h-7 w-7 stroke-current stroke-[1.8]" fill="none">
-                    <path d="M13 3L4 14h7l-2 9 11-13h-7l2-7z" />
-                </svg>
-            );
-        case 'clock':
-            return (
-                <svg viewBox="0 0 26 26" className="h-7 w-7 stroke-current stroke-[1.8]" fill="none">
-                    <path d="M4 13a9 9 0 1118 0" />
-                    <path d="M13 4v9l5 3" />
-                    <circle cx="13" cy="22" r="2" fill="currentColor" stroke="none" />
-                </svg>
-            );
-    }
+const HERO_NAME_LINES = [
+    { text: 'JAYA', className: '' },
+    { text: 'SRI', className: '' },
+    { text: 'RAAM S', className: 'underline-red' },
+];
+
+function BlogCard({ post }: { post: BlogPost }) {
+    const cardRef = useRef<HTMLAnchorElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: cardRef,
+        offset: ['start end', 'end start'],
+    });
+    const imgY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
+
+    return (
+        <a
+            ref={cardRef}
+            href={post.url}
+            target="_blank"
+            rel="noreferrer"
+            className="reveal mb-4 group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
+        >
+            <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
+                <motion.img
+                    style={{ y: imgY }}
+                    src={post.image}
+                    alt={post.title}
+                    loading="lazy"
+                    className="h-[120%] w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
+                    referrerPolicy="no-referrer"
+                />
+            </div>
+            <div className="px-6 py-6">
+                <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
+                <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
+                <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/75 transition-colors duration-300 group-hover:text-white/80">
+                    Read article <span className="text-[0.9rem]">↗</span>
+                </div>
+            </div>
+        </a>
+    );
 }
 
 function App() {
+    const [loading, setLoading] = useState(true);
     const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const [navHidden, setNavHidden] = useState(false);
+    const [isMobile, setIsMobile] = useState(() =>
+        typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
+    );
+    const lenisRef = useRef<Lenis | null>(null);
+    const heroRef = useRef<HTMLElement>(null);
 
+    const ready = !loading;
+
+    /* ── Lenis smooth scrolling + anchor handling ── */
+    useEffect(() => {
+        const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+        lenisRef.current = lenis;
+
+        let raf = 0;
+        const loop = (time: number) => {
+            lenis.raf(time);
+            raf = requestAnimationFrame(loop);
+        };
+        raf = requestAnimationFrame(loop);
+
+        const onClick = (event: MouseEvent) => {
+            const target = event.target as HTMLElement | null;
+            const anchor = target?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+            if (!anchor) return;
+            const hash = anchor.getAttribute('href');
+            if (!hash || hash === '#') return;
+            const el = document.querySelector(hash);
+            if (!el) return;
+            event.preventDefault();
+            lenis.scrollTo(el as HTMLElement, { duration: 1.4 });
+        };
+        document.addEventListener('click', onClick);
+
+        return () => {
+            cancelAnimationFrame(raf);
+            document.removeEventListener('click', onClick);
+            lenis.destroy();
+            lenisRef.current = null;
+        };
+    }, []);
+
+    /* ── Navbar hide on scroll ── */
     useEffect(() => {
         let lastScroll = 0;
 
@@ -131,6 +217,7 @@ function App() {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    /* ── Reveal observer for legacy .reveal elements ── */
     useEffect(() => {
         const revealElements = document.querySelectorAll<HTMLElement>('.reveal');
         const sectionHeaders = document.querySelectorAll<HTMLElement>('.section-header');
@@ -168,6 +255,7 @@ function App() {
         };
     }, []);
 
+    /* ── Modal: escape key, scroll lock, lenis pause ── */
     useEffect(() => {
         const onKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -176,17 +264,47 @@ function App() {
             }
         };
 
-        document.body.style.overflow = selectedProject ? 'hidden' : '';
+        const lock = selectedProject || loading;
+        document.body.style.overflow = lock ? 'hidden' : '';
+        if (lock) {
+            lenisRef.current?.stop();
+        } else {
+            lenisRef.current?.start();
+        }
         document.addEventListener('keydown', onKeyDown);
 
         return () => {
             document.body.style.overflow = '';
             document.removeEventListener('keydown', onKeyDown);
         };
-    }, [selectedProject]);
+    }, [selectedProject, loading]);
+
+    /* ── Mobile detection (disables notepad parallax that would overlap the stats) ── */
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
+    /* ── Hero scroll parallax ── */
+    const { scrollYProgress: heroProgress } = useScroll({
+        target: heroRef,
+        offset: ['start start', 'end start'],
+    });
+    const heroNameY = useTransform(heroProgress, [0, 1], [0, -90]);
+    const heroSkew = useTransform(heroProgress, [0, 1], [0, 5]);
+    const heroNoteY = useTransform(heroProgress, [0, 1], isMobile ? [0, 0] : [0, 110]);
+    const heroFade = useTransform(heroProgress, [0, 0.75], [1, 0.2]);
+
+    const EASE = [0.16, 1, 0.3, 1] as const;
 
     return (
         <div className="bg-[var(--white)] text-[var(--black)]">
+            <ScrollProgress />
+            <CustomCursor />
+            <Preloader onComplete={() => setLoading(false)} />
+
             <Navbar
                 hidden={navHidden}
                 menuOpen={menuOpen}
@@ -195,53 +313,95 @@ function App() {
             />
 
             <main>
-                <section id="hero" className="grid min-h-screen border-b-2 border-[var(--black)] pt-[72px] md:grid-cols-2">
-                    <div className="relative overflow-hidden border-b-2 border-[var(--black)] px-6 py-16 md:border-b-0 md:border-r-2 md:px-12 md:py-20">
+                <section
+                    id="hero"
+                    ref={heroRef}
+                    className="grid min-h-screen border-b-2 border-[var(--black)] pt-[72px] md:grid-cols-2"
+                >
+                    <motion.div
+                        style={{ opacity: heroFade }}
+                        className="relative overflow-hidden border-b-2 border-[var(--black)] px-6 py-16 md:border-b-0 md:border-r-2 md:px-12 md:py-20"
+                    >
                         <div className="hero-mark">JS</div>
-                        <p className="animate-slide-up text-[0.65rem] font-bold uppercase tracking-[0.3em] text-[var(--accent)]">
+
+                        <motion.p
+                            initial={{ y: 24, opacity: 0 }}
+                            animate={ready ? { y: 0, opacity: 1 } : {}}
+                            transition={{ duration: 0.6, delay: 0.05, ease: EASE }}
+                            className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-[var(--accent)]"
+                        >
                             Full Stack Developer · Chennai, India
-                        </p>
+                        </motion.p>
 
-                        <h1 className="mt-6 font-display text-[3.5rem] leading-[0.9] tracking-[0.02em] md:text-[8rem]">
-                            <span className="animate-slide-up block [animation-delay:0.2s]">JAYA</span>
-                            <span className="animate-slide-up block [animation-delay:0.35s]">SRI</span>
-                            <span className="underline-red animate-slide-up block [animation-delay:0.5s]">RAAM S</span>
-                        </h1>
+                        <motion.div
+                            style={{ y: heroNameY, skewX: heroSkew }}
+                            className="mt-8 font-display text-[3.5rem] leading-[0.9] tracking-[0.02em] md:text-[8rem]"
+                        >
+                            {HERO_NAME_LINES.map((line, i) => (
+                                <span key={line.text} className="block overflow-hidden pb-[0.06em]">
+                                    <motion.span
+                                        initial={{ y: '115%' }}
+                                        animate={ready ? { y: '0%' } : {}}
+                                        transition={{ duration: 0.75, delay: 0.12 + i * 0.09, ease: EASE }}
+                                        className={`block ${line.className}`}
+                                    >
+                                        {line.text}
+                                    </motion.span>
+                                </span>
+                            ))}
+                        </motion.div>
 
-                        <p className="animate-slide-up mt-6 font-serif text-[1.25rem] italic text-[var(--gray)] md:text-[1.4rem] [animation-delay:0.65s]">
+                        <motion.p
+                            initial={{ y: 24, opacity: 0 }}
+                            animate={ready ? { y: 0, opacity: 1 } : {}}
+                            transition={{ duration: 0.6, delay: 0.45, ease: EASE }}
+                            className="mt-6 font-serif text-[1.25rem] italic text-[var(--gray)] md:text-[1.4rem]"
+                        >
                             Building things that scale
                             <span className="ml-1 inline-block animate-blink text-[var(--accent2)]">|</span>
-                        </p>
+                        </motion.p>
 
-                        <p className="animate-slide-up mt-8 max-w-[420px] text-[0.78rem] leading-[1.9] text-black/80 [animation-delay:0.8s]">
+                        <motion.p
+                            initial={{ y: 24, opacity: 0 }}
+                            animate={ready ? { y: 0, opacity: 1 } : {}}
+                            transition={{ duration: 0.6, delay: 0.58, ease: EASE }}
+                            className="mt-8 max-w-[420px] text-[0.78rem] leading-[1.9] text-black/80"
+                        >
                             Full Stack Developer with 3+ years of experience building scalable web applications, enterprise ERP systems, and cross-platform mobile solutions. Specialized in React.js, Next.js, Node.js, GraphQL, and the MERN stack.
-                        </p>
+                        </motion.p>
 
-                        <div className="animate-slide-up mt-12 flex flex-wrap gap-4 [animation-delay:0.95s]">
+                        <motion.div
+                            initial={{ y: 24, opacity: 0 }}
+                            animate={ready ? { y: 0, opacity: 1 } : {}}
+                            transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
+                            className="mt-12 flex flex-wrap gap-4"
+                        >
                             <a href="#projects" className="button-primary">
                                 View Projects
                             </a>
                             <a href="mailto:jayasriraam.job@gmail.com" className="button-secondary">
                                 Get In Touch
                             </a>
-                        </div>
+                        </motion.div>
 
                         <div className="absolute bottom-8 left-6 hidden flex-col items-center gap-2 md:flex md:left-12">
                             <div className="scroll-line" />
                             <span className="text-[0.55rem] uppercase tracking-[0.2em] text-[var(--gray)]">Scroll</span>
                         </div>
-                    </div>
+                    </motion.div>
 
                     <div className="relative flex flex-col px-6 py-10 md:px-12 md:py-16">
-                        <div className="absolute right-0 top-16 hidden border-l-2 border-[var(--black)] px-2 py-4 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)] [writing-mode:vertical-lr] md:block">
-                            <a href="mailto:jayasriraam.job@gmail.com" className="text-[var(--black)] no-underline">
-                                jayasriraam.job@gmail.com
-                            </a>
-                        </div>
+                        {/* Rotating 'open to work' sticker (mew-style accent) */}
+                        <RotatingBadge className="absolute right-4 top-10 hidden md:block md:right-10 md:top-12" />
 
                         {/* Notepad with pin */}
-                        <div className="flex flex-1 items-center justify-center py-10">
-                            <div className="notepad-paper">
+                        <motion.div style={{ y: heroNoteY }} className="flex flex-1 shrink-0 items-center justify-center py-10">
+                            <motion.div
+                                initial={{ y: 60, opacity: 0, rotate: isMobile ? -2 : -3 }}
+                                animate={ready ? { y: 0, opacity: 1, rotate: isMobile ? 0 : -1.5, scale: isMobile ? 0.94 : 1 } : {}}
+                                transition={{ duration: 0.8, delay: 0.5, ease: EASE }}
+                                className="notepad-paper"
+                            >
                                 <div className="notepad-pin" />
                                 <p className="note-open note-tamil">அடியே அழகி! <span className="note-check">✓</span></p>
                                 <div className="note-divider" />
@@ -255,37 +415,44 @@ function App() {
                                 <div className="note-divider" />
                                 <p className="note-small note-tamil">அவளும் நானும்,</p>
                                 <p className="note-small note-tamil">அலையும் கடலும்</p>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
 
                         <div className="mt-auto grid grid-cols-2">
                             {heroStats.map((stat, index) => (
-                                <div
+                                <motion.div
                                     key={stat.label}
-                                    className={`animate-fade-in border-t-2 border-[var(--black)] p-5 opacity-0 md:p-8 ${index % 2 === 0 ? 'border-r-2' : ''
-                                        }`}
-                                    style={{ animationDelay: `${1.05 + index * 0.15}s` }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={ready ? { opacity: 1, y: 0 } : {}}
+                                    transition={{ duration: 0.6, delay: 0.6 + index * 0.12, ease: EASE }}
+                                    className={`border-t-2 border-[var(--black)] p-5 md:p-8 ${index % 2 === 0 ? 'border-r-2' : ''}`}
                                 >
                                     <div className="font-display text-[2.5rem] leading-none md:text-[3.5rem]">
-                                        {stat.num.slice(0, -1)}
-                                        <span className="text-[var(--accent2)]">{stat.num.slice(-1)}</span>
+                                        <CountUp value={parseInt(stat.num, 10)} suffix={stat.num.slice(-1)} />
                                     </div>
                                     <div className="mt-1 text-[0.65rem] uppercase tracking-[0.15em] text-[var(--gray)]">{stat.label}</div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </section>
 
+                <Marquee
+                    items={SKILL_MARQUEE}
+                    className="border-b-2 border-[var(--black)] bg-[var(--white)] py-6 text-[var(--black)]"
+                    speed={26}
+                />
+
                 <section id="skills" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="01" title="TECH STACK" />
                     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-                        {skillCategories.map((category) => (
-                            <div
+                        {skillCategories.map((category) => (                                <div
                                 key={category.title}
-                                className="reveal skill-card -ml-px -mt-px border-2 border-[var(--black)] px-8 py-10 transition-colors duration-300"
+                                className="group reveal skill-card -ml-px -mt-px border-2 border-[var(--black)] px-8 py-10 transition-colors duration-300"
                             >
-                                <SkillIcon icon={category.icon} />
+                                <div className="mb-4 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110">
+                                    <SkillIcon icon={category.icon} />
+                                </div>
                                 <div className="mb-5 font-syne text-[0.75rem] font-extrabold uppercase tracking-[0.2em]">{category.title}</div>
                                 <div className="flex flex-wrap gap-2">
                                     {category.tags.map((tag) => (
@@ -327,43 +494,7 @@ function App() {
                     </div>
                 </section>
 
-                <section id="projects" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
-                    <SectionHeader number="03" title="KEY PROJECTS" />
-                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
-                        {projects.map((project) => (
-                            <button
-                                type="button"
-                                key={project.num}
-                                className="reveal project-card group -ml-px -mt-px cursor-pointer border-2 border-[var(--black)] px-8 py-10 text-left transition-colors duration-300"
-                                onClick={() => setSelectedProject(project)}
-                            >
-                                <div className="pointer-events-none absolute right-4 top-4 font-display text-[5rem] leading-none text-black/5 transition-colors duration-300 group-hover:text-white/5">
-                                    {project.num}
-                                </div>
-                                <div className="relative font-syne text-[1.2rem] font-extrabold leading-[1.2]">{project.title}</div>
-                                <div className="relative mt-3 text-[0.7rem] leading-[1.9] text-black/65 transition-colors duration-300 group-hover:text-white/60">
-                                    {project.desc}
-                                </div>
-                                <div className="relative mt-6 flex flex-wrap gap-2">
-                                    {project.tags.slice(0, 4).map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="border border-black/20 px-2.5 py-1 text-[0.58rem] uppercase tracking-[0.1em] text-black/60 transition-colors duration-300 group-hover:border-white/30 group-hover:text-white/60"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                                <div className="relative mt-4 inline-block text-[1.2rem] transition-colors duration-300 group-hover:text-[var(--accent2)]">
-                                    ↗
-                                </div>
-                                <span className="relative mt-2 block text-[0.55rem] uppercase tracking-[0.15em] text-[var(--gray)] transition-colors duration-300 group-hover:text-white/30">
-                                    Click to view details
-                                </span>
-                            </button>
-                        ))}
-                    </div>
-                </section>
+                <HorizontalProjects projects={projects} onSelect={setSelectedProject} />
 
                 <section id="education" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="04" title="EDUCATION" />
@@ -381,34 +512,34 @@ function App() {
                                             {education.degree}
                                         </div>
                                         <div className="mt-5 font-serif text-[1.1rem] italic md:text-[1.35rem]">{education.university}</div>
-                                        <p className="mt-5 max-w-[48ch] text-[0.72rem] leading-[1.9] text-black/62">
+                                        <p className="mt-5 max-w-[48ch] text-[0.72rem] leading-[1.9] text-black/78">
                                             {education.focus}
                                         </p>
                                     </div>
 
                                     <div className="grid grid-cols-2 bg-[var(--black)] text-[var(--white)]">
                                         <div className="border-b border-r border-white/15 px-6 py-7 md:px-7">
-                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Period</div>
+                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/50">Period</div>
                                             <div className="mt-3 font-display text-[1.4rem] leading-none text-[0.85rem]">{education.period}</div>
                                         </div>
                                         {education.cgpa ? (
                                             <div className="border-b border-white/15 px-6 py-7 md:px-7">
-                                                <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">CGPA</div>
+                                                <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/50">CGPA</div>
                                                 <div className="mt-3 font-display text-[1.8rem] leading-none text-[var(--accent2)]">{education.cgpa}</div>
                                                 <div className="mt-1 text-[0.72rem] text-white/65">out of 10</div>
                                             </div>
                                         ) : (
                                             <div className="border-b border-white/15 px-6 py-7 md:px-7">
-                                                <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Status</div>
+                                                <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/50">Status</div>
                                                 <div className="mt-3 text-[0.72rem] leading-[1.8] text-white/72">In Progress</div>
                                             </div>
                                         )}
                                         <div className="border-r border-white/15 px-6 py-7 md:px-7">
-                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Location</div>
+                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/50">Location</div>
                                             <div className="mt-3 text-[0.78rem] leading-[1.8] text-white/72">{education.location}</div>
                                         </div>
                                         <div className="px-6 py-7 md:px-7">
-                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/40">Field</div>
+                                            <div className="text-[0.55rem] uppercase tracking-[0.22em] text-white/50">Field</div>
                                             <div className="mt-3 text-[0.78rem] leading-[1.8] text-white/72">{education.degree.split(' ').slice(0, 2).join(' ')}</div>
                                         </div>
                                     </div>
@@ -422,21 +553,31 @@ function App() {
 
                 <section id="achievements" className="bg-[var(--white)] px-6 py-20 text-[var(--black)] md:px-12 md:py-28">
                     <SectionHeader number="06" title="ACHIEVEMENTS" />
-                    <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
-                        {achievements.map((achievement) => (
-                            <div
-                                key={achievement.title}
-                                className="group reveal -ml-px -mt-px flex flex-col gap-4 border-2 border-[var(--black)] px-8 py-10 transition-colors duration-200 hover:bg-[var(--black)] hover:text-[var(--white)]"
-                            >
-                                <div className="flex h-13 w-13 items-center justify-center border-2 border-[var(--accent2)] bg-[var(--accent2)]/8 text-[var(--accent2)] transition-colors duration-200 group-hover:border-white/35 group-hover:bg-white/10 group-hover:text-[var(--white)]">
-                                    <AchievementIcon icon={achievement.icon} />
+                    {isMobile ? (
+                        <AchievementsMobile achievements={achievements} />
+                    ) : (
+                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
+                            {achievements.map((achievement) => (
+                                <div
+                                    key={achievement.title}
+                                    className="group reveal -ml-px -mt-px flex flex-col gap-4 border-2 border-[var(--black)] px-8 py-10 transition-colors duration-200 hover:bg-[var(--black)] hover:text-[var(--white)]"
+                                >
+                                    <div className="flex h-13 w-13 items-center justify-center border-2 border-[var(--accent2)] bg-[var(--accent2)]/8 text-[var(--accent2)] transition-colors duration-200 group-hover:border-white/35 group-hover:bg-white/10 group-hover:text-[var(--white)]">
+                                        <AchievementIcon icon={achievement.icon} />
+                                    </div>
+                                    <div className="font-syne text-[0.75rem] font-extrabold uppercase tracking-[0.15em] text-black/90 transition-colors duration-200 group-hover:text-white/90">{achievement.title}</div>
+                                    <div className="text-[0.72rem] leading-[1.9] text-black/78 transition-colors duration-200 group-hover:text-white/75">{achievement.text}</div>
                                 </div>
-                                <div className="font-syne text-[0.75rem] font-extrabold uppercase tracking-[0.15em] text-black/90 transition-colors duration-200 group-hover:text-white/90">{achievement.title}</div>
-                                <div className="text-[0.72rem] leading-[1.9] text-black/70 transition-colors duration-200 group-hover:text-white/75">{achievement.text}</div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </section>
+
+                <Marquee
+                    items={BLOG_MARQUEE}
+                    className="border-b-2 border-[var(--black)] bg-[var(--black)] py-6 text-[var(--white)]"
+                    speed={28}
+                />
 
                 <section id="blog" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="07" title="BLOG WRITINGS" />
@@ -456,35 +597,18 @@ function App() {
                         {blogDetails
                             .filter((post) => post.available)
                             .map((post) => (
-                                <a
-                                    key={post.url}
-                                    href={post.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="reveal mb-4 group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
-                                >
-                                    <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
-                                        <img
-                                            src={post.image}
-                                            alt={post.title}
-                                            loading="lazy"
-                                            className="h-full w-full object-cover grayscale transition-opacity duration-300 group-hover:opacity-90"
-                                            referrerPolicy="no-referrer"
-                                        />
-                                    </div>
-                                    <div className="px-6 py-6">
-                                        <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
-                                        <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
-                                        <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/65 transition-colors duration-300 group-hover:text-white/80">
-                                            Read article <span className="text-[0.9rem]">↗</span>
-                                        </div>
-                                    </div>
-                                </a>
+                                <BlogCard key={post.url} post={post} />
                             ))}
                     </div>
                 </section>
 
                 <FreshTunes tracks={musicTracks} />
+
+                <Marquee
+                    items={CONTACT_MARQUEE}
+                    className="border-b-2 border-[var(--black)] bg-[var(--black)] py-6 text-[var(--white)]"
+                    speed={24}
+                />
 
                 <section id="contact" className="relative overflow-hidden bg-[var(--black)] px-6 py-20 text-[var(--white)] md:px-12 md:py-28">
                     <div className="pointer-events-none absolute bottom-[-3rem] right-[-1rem] font-display text-[8rem] leading-none text-white/5 md:text-[18rem]">
@@ -493,39 +617,96 @@ function App() {
                     <div className="grid gap-12 md:grid-cols-2 md:gap-20">
                         <div className="reveal">
                             <h2 className="font-display text-[3rem] leading-[0.95] md:text-[6rem]">
-                                LET'S <span className="font-serif italic text-[var(--accent2)]">BUILD</span> SOMETHING.
+                                {['LET\'S', 'BUILD', 'SOMETHING.'].map((word, i) => (
+                                    <span key={word} className="inline-block overflow-hidden pb-[0.08em] align-top">
+                                        <motion.span
+                                            initial={{ y: '110%' }}
+                                            whileInView={{ y: '0%' }}
+                                            viewport={{ once: true, margin: '-80px' }}
+                                            transition={{ duration: 0.7, delay: i * 0.08, ease: EASE }}
+                                            className={`inline-block ${i === 1 ? 'font-serif italic text-[var(--accent2)]' : ''}`}
+                                        >
+                                            {word}
+                                        </motion.span>
+                                        {i < 2 ? <span>&nbsp;</span> : null}
+                                    </span>
+                                ))}
                             </h2>
-                            <p className="mt-8 max-w-[380px] text-[0.72rem] leading-[1.9] text-white/50">
+                            <motion.p
+                                initial={{ y: 24, opacity: 0 }}
+                                whileInView={{ y: 0, opacity: 1 }}
+                                viewport={{ once: true, margin: '-60px' }}
+                                transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+                                className="mt-8 max-w-[380px] text-[0.72rem] leading-[1.9] text-white/62"
+                            >
                                 Open to exciting roles, freelance projects, and collaborations. Let's talk about what we can build together.
-                            </p>
+                            </motion.p>
                         </div>
 
                         <div className="reveal mt-2 flex flex-col">
                             {contactLinks.map((contact) => (
-                                <a
-                                    key={contact.label}
-                                    href={contact.href}
-                                    target={contact.href.startsWith('http') ? '_blank' : undefined}
-                                    rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
-                                    className="flex items-center gap-6 border-b border-white/10 py-6 text-[var(--white)] no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
-                                >
-                                    <span className="w-20 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)]">{contact.label}</span>
-                                    <span className="font-syne text-[0.8rem] font-bold md:text-[0.95rem]">{contact.value}</span>
-                                    <span className="ml-auto text-[1.2rem]">↗</span>
-                                </a>
+                            <a
+                                key={contact.label}
+                                href={contact.href}
+                                target={contact.href.startsWith('http') ? '_blank' : undefined}
+                                rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
+                                className="group flex items-center gap-6 border-b border-white/10 py-6 text-[var(--white)] no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
+                            >
+                                <span className="w-20 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)] transition-colors duration-200 group-hover:text-[var(--accent2)]">{contact.label}</span>
+                                <span className="font-syne text-[0.8rem] font-bold md:text-[0.95rem]">{contact.value}</span>
+                                <span className="ml-auto text-[1.2rem] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">↗</span>
+                            </a>
                             ))}
                         </div>
                     </div>
                 </section>
             </main>
 
-            <footer className="flex flex-wrap items-center justify-center gap-2 border-t-2 border-[var(--black)] bg-[var(--black)] px-6 py-5 text-center text-[0.6rem] tracking-[0.1em] text-white/30 md:justify-between md:px-12">
-                <span>© 2023 Jayasriraam S</span>
-                <span>Full Stack Developer · Chennai, India</span>
-                <span>Designed with ♥</span>
+            <footer className="relative overflow-hidden border-t-2 border-[var(--black)] bg-[var(--black)] px-6 py-12 text-[var(--white)] md:px-12 md:py-16">
+                <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[10rem] leading-none text-white/[0.04] md:text-[20rem]">
+                    JS
+                </div>
+                <div className="relative flex flex-col items-center gap-8 md:flex-row md:items-end md:justify-between">
+                    <div className="text-center md:text-left">
+                        <div className="font-display text-[1.8rem] leading-none tracking-[0.08em]">
+                            JAYASRIRAM <span className="text-[var(--accent2)]">S</span>
+                        </div>
+                        <div className="mt-2 text-[0.58rem] uppercase tracking-[0.22em] text-white/35">
+                            Full Stack Developer · Chennai, India
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-6 text-[0.6rem] uppercase tracking-[0.18em]">
+                        {contactLinks
+                            .filter((c) => ['GitHub', 'LinkedIn'].includes(c.label))
+                            .map((c) => (
+                                <a
+                                    key={c.label}
+                                    href={c.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-white/60 no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
+                                >
+                                    {c.label}
+                                </a>
+                            ))}
+                        <a
+                            href="#hero"
+                            className="text-white/60 no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
+                        >
+                            Back to top ↑
+                        </a>
+                    </div>
+                    <div className="text-[0.55rem] tracking-[0.15em] text-white/30">
+                        © {new Date().getFullYear()} Jayasriraam S · Designed with ♥
+                    </div>
+                </div>
             </footer>
 
-            <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+            <AnimatePresence>
+                {selectedProject ? (
+                    <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+                ) : null}
+            </AnimatePresence>
         </div>
     );
 }

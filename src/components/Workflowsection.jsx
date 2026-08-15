@@ -250,6 +250,8 @@ export function WorkflowSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [sectionComplete, setSectionComplete] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [swipeIndex, setSwipeIndex] = useState(0);
+  const swipeTrackRef = useRef(null);
 
   /* Detect mobile */
   useEffect(() => {
@@ -326,45 +328,97 @@ export function WorkflowSection() {
   const subtitleY = useTransform(entryProgress, [0.2, 1], [24, 0]);
   const subtitleOpacity = useTransform(entryProgress, [0.2, 1], [0, 1]);
 
-  /* Mobile: simple vertical stack, no sticky */
+  /* ── Mobile: horizontal swipe-snap carousel ── */
+  const onSwipe = (e) => {
+    const el = e.currentTarget;
+    const card = el.querySelector("[data-card]");
+    if (!card) return;
+    const step = card.offsetWidth + 16; // gap-4
+    setSwipeIndex(clamp(Math.round(el.scrollLeft / step), 0, total - 1));
+  };
+
+  const scrollToCard = (idx) => {
+    const el = swipeTrackRef.current;
+    if (!el) return;
+    const card = el.querySelectorAll("[data-card]")[idx];
+    if (card) {
+      card.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  };
+
   if (isMobile) {
     return (
       <section
         id="process"
-        className="border-b-2 border-[var(--black)] bg-[var(--black)] px-6 py-20 text-[var(--white)]"
+        className="border-b-2 border-[var(--black)] bg-[var(--black)] py-20 text-[var(--white)]"
       >
-        <SectionHeader number="05" title="WORKFLOW / PROCESS" inverted />
-        <p className="reveal mb-10 max-w-[640px] text-[0.72rem] leading-[1.9] text-white/55">
-          A visual run-through of how I move from clarity to shipment. Each card
-          highlights one stage in the delivery sequence.
-        </p>
-        <div className="flex flex-col gap-6">
+        <div className="px-6">
+          <SectionHeader number="05" title="WORKFLOW / PROCESS" inverted />
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <p className="max-w-[280px] text-[0.72rem] leading-[1.9] text-white/65">
+              A visual run-through of how I move from clarity to shipment.
+            </p>
+            <span className="shrink-0 text-[0.55rem] font-bold uppercase tracking-[0.2em] text-[var(--accent2)]">
+              Swipe →
+            </span>
+          </div>
+        </div>
+
+        <div
+          ref={swipeTrackRef}
+          onScroll={onSwipe}
+          className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2"
+        >
           {processSteps.map((step, index) => (
             <article
               key={step.step}
-              className="border border-white/15 bg-white/5"
+              data-card
+              className="w-[78vw] max-w-[320px] shrink-0 snap-center overflow-hidden border border-white/15 bg-white/[0.04]"
             >
-              <div className="overflow-hidden">
+              <div className="relative h-40 overflow-hidden">
                 <img
                   src={VISUALS[index % VISUALS.length]}
                   alt={step.title}
                   loading="lazy"
-                  className="h-[180px] w-full object-cover grayscale"
+                  className="h-full w-full object-cover grayscale"
                 />
-              </div>
-              <div className="px-5 py-5">
-                <div className="font-display text-[3rem] leading-none tracking-[0.02em] text-white/90">
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--black)] via-black/20 to-transparent" />
+                <div className="absolute bottom-2 left-4 font-display text-[3.2rem] leading-none tracking-[0.02em] text-white">
                   {step.step}
                 </div>
-                <div className="mt-2 text-[0.58rem] font-bold uppercase tracking-[0.16em] text-white/80">
+              </div>
+              <div className="px-5 py-5">
+                <div className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[var(--accent2)]">
                   {step.title}
                 </div>
-                <p className="mt-2 text-[0.68rem] leading-[1.8] text-white/55">
+                <p className="mt-2.5 text-[0.68rem] leading-[1.8] text-white/70">
                   {step.text}
                 </p>
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Dots + counter */}
+        <div className="mt-6 flex items-center justify-center gap-3">
+          {processSteps.map((step, i) => (
+            <button
+              key={step.step}
+              type="button"
+              aria-label={`Go to step ${step.step}`}
+              onClick={() => scrollToCard(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === swipeIndex ? "w-7 bg-[var(--accent2)]" : "w-1.5 bg-white/25"
+              }`}
+            />
+          ))}
+        </div>
+        <div className="mt-3 text-center text-[0.55rem] uppercase tracking-[0.25em] text-white/35">
+          {String(swipeIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </div>
       </section>
     );
@@ -425,7 +479,7 @@ export function WorkflowSection() {
             </div>
 
             <motion.p
-              className="mt-3 max-w-[500px] text-[0.68rem] leading-[1.9] text-white/45"
+              className="mt-3 max-w-[500px] text-[0.68rem] leading-[1.9] text-white/60"
               style={{ y: subtitleY, opacity: subtitleOpacity }}
             >
               A visual run-through of how I move from clarity to shipment. Each

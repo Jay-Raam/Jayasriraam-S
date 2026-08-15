@@ -10,7 +10,8 @@
 :root {
   --black: #0a0a0a;
   --white: #f5f0e8;
-  --accent: #6b3fa0;
+  /* single accent — unified red (purple vestige removed) */
+  --accent: #e84855;
   --accent2: #e84855;
   --selection-bg: #c83442;
   --selection-text: #f5f0e8;
@@ -18,7 +19,7 @@
   --scrollbar-thumb: #e84855;
   --scrollbar-thumb-hover: #f05a66;
   --scrollbar-thumb-active: #c83442;
-  --gray: #888;
+  --gray: #757575;
 }
 
 @supports (color: color-mix(in srgb, red, black)) {
@@ -30,9 +31,7 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* scroll smoothing is handled by Lenis in JS */
 
 ::selection {
   background: var(--selection-bg);
@@ -52,6 +51,19 @@ body {
   font-family: var(--font-mono);
   overflow-x: hidden;
   cursor: crosshair;
+}
+
+/* Custom cursor takes over on precision pointers only */
+@media (pointer: fine) {
+  body,
+  a,
+  button,
+  [role='button'],
+  input,
+  textarea,
+  select {
+    cursor: none;
+  }
 }
 
 body::before {
@@ -203,8 +215,8 @@ button {
 
 .skill-pill {
   padding: 0.25rem 0.55rem;
-  border: 1px solid #ccc;
-  color: #555;
+  border: 1px solid #bbb;
+  color: #484848;
   transition: border-color 0.25s ease, color 0.25s ease;
 }
 
@@ -418,19 +430,72 @@ button {
   }
 }
 
+/* ─── Swipe carousels (mobile sections) ──────────── */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Rotating sticker badge ─────────────────────── */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 16s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slow {
+    animation: none;
+  }
+}
+
+/* ─── Marquee strips ──────────────────────────────── */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ─── Text outline (mew-style stroke type) ────────── */
+.text-stroke {
+  -webkit-text-stroke: 1.5px currentColor;
+  color: transparent;
+}
+
 /* ─── Notepad / Pin ──────────────────────────────── */
 .notepad-paper {
   position: relative;
   width: 230px;
-  padding: 44px 22px 28px;
+  padding: 54px 22px 30px;
   background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.055), rgba(0, 0, 0, 0) 64px),
     repeating-linear-gradient(
       transparent,
       transparent 27px,
       rgba(0, 0, 0, 0.07) 27px,
       rgba(0, 0, 0, 0.07) 28px
     ),
-    #fdfcf6;
+    #fcfbf5;
   box-shadow:
     2px 6px 18px rgba(0, 0, 0, 0.13),
     0 1px 3px rgba(0, 0, 0, 0.07);
@@ -445,15 +510,15 @@ button {
 
 .notepad-pin {
   position: absolute;
-  top: -13px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: radial-gradient(circle at 38% 35%, #f05a66, #c0222f);
   box-shadow:
-    0 3px 7px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.35),
     inset 0 1px 2px rgba(255, 255, 255, 0.25),
     inset 0 -1px 3px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -462,11 +527,11 @@ button {
 .notepad-pin::after {
   content: '';
   position: absolute;
-  bottom: -9px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 10px;
+  width: 3px;
+  height: 7px;
   background: linear-gradient(to bottom, #aaa, #666);
   border-radius: 0 0 3px 3px;
 }
@@ -474,7 +539,7 @@ button {
 .note-open {
   font-size: 1.18rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #2f3a54;
   line-height: 28px;
 }
 
@@ -484,31 +549,31 @@ button {
 
 .note-item {
   font-size: 1.02rem;
-  color: #3a3a3a;
+  color: #46516e;
   line-height: 28px;
 }
 
 .note-big {
   font-size: 1.22rem;
   font-weight: 700;
-  color: #0d0d0d;
+  color: #252e47;
   line-height: 28px;
 }
 
 .note-small {
   font-size: 0.9rem;
-  color: #888;
+  color: #6e7689;
   line-height: 28px;
 }
 
 .note-divider {
-  height: 12px;
-  margin: 4px 0;
+  height: 22px;
+  margin: 2px 0;
 }
 
 .note-tamil {
   font-family: 'Noto Sans Tamil', sans-serif;
   font-size: 1rem;
   letter-spacing: 0.02em;
-  color: #555;
+  color: #4c5670;
 }

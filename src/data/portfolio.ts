@@ -183,7 +183,7 @@ export const skillCategories: SkillCategory[] = [
     tags: ['Git', 'GitHub', 'Postman', 'Figma', 'CI/CD Pipelines', 'Framer',],
   },
   {
-  title: 'Hoobies & Interests',
+  title: 'Hobbies & Interests',
   icon: 'architecture',
   tags: ['Gen AI', 'Prompt Engineering', 'Chatbots', "Writing", 'Anime', 'Music', 'Travel'],
 }

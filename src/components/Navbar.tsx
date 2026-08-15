@@ -1,4 +1,6 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { navLinks } from '../data/portfolio';
+import { ScrambleText } from './ScrambleText';
 
 type NavbarProps = {
     hidden: boolean;
@@ -22,7 +24,7 @@ export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu }: NavbarPr
                     {navLinks.map((link) => (
                         <li key={link.href}>
                             <a href={link.href} className="nav-link text-[0.7rem] uppercase tracking-[0.15em] no-underline">
-                                {link.label}
+                                <ScrambleText text={link.label} />
                             </a>
                         </li>
                     ))}
@@ -41,22 +43,46 @@ export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu }: NavbarPr
                 </button>
             </nav>
 
-            <ul
-                className={`fixed left-0 right-0 top-16 z-40 list-none flex-col gap-6 border-b-2 border-[var(--black)] bg-[var(--black)] px-8 py-8 ${menuOpen ? 'flex' : 'hidden'
-                    } md:hidden`}
-            >
-                {navLinks.map((link) => (
-                    <li key={link.href}>
-                        <a
-                            href={link.href}
-                            onClick={onCloseMenu}
-                            className="text-[0.8rem] uppercase tracking-[0.15em] text-[var(--white)] no-underline"
-                        >
-                            {link.mobileLabel ?? link.label}
-                        </a>
-                    </li>
-                ))}
-            </ul>
+            <AnimatePresence>
+                {menuOpen && (
+                    <motion.ul
+                        initial={{ opacity: 0, y: -16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -16 }}
+                        transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                        className="fixed left-0 right-0 top-16 z-40 flex list-none flex-col border-b-2 border-[var(--black)] bg-[var(--black)] px-8 py-6 md:hidden"
+                    >
+                        {navLinks.map((link, index) => (
+                            <motion.li
+                                key={link.href}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.32, delay: 0.06 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <a
+                                    href={link.href}
+                                    onClick={onCloseMenu}
+                                    className="flex items-center gap-4 border-b border-white/10 py-4 text-[var(--white)] no-underline"
+                                >
+                                    <span className="text-[0.55rem] text-[var(--accent2)]">{String(index + 1).padStart(2, '0')}</span>
+                                    <span className="flex-1 text-[0.85rem] uppercase tracking-[0.15em]">{link.mobileLabel ?? link.label}</span>
+                                    <span className="text-[var(--accent2)]">→</span>
+                                </a>
+                            </motion.li>
+                        ))}
+                    </motion.ul>
+                )}
+            </AnimatePresence>
+
+            {/* Tap outside the menu to close */}
+            {menuOpen && (
+                <div
+                    className="fixed inset-0 top-16 z-30 bg-transparent md:hidden"
+                    onClick={onCloseMenu}
+                    aria-hidden="true"
+                />
+            )}
         </>
     );
 }

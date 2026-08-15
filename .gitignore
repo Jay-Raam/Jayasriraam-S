@@ -32,3 +32,6 @@ yarn-error.log*
 .vercel
 
 .vercel
+
+# Freebuff app runtime data (SQLite db, logs) — never scan/commit
+.freebuff/

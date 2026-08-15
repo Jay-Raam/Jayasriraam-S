@@ -42,7 +42,8 @@ interface FreshTunesProps {
 ───────────────────────────────────────────── */
 
 // Each song occupies this many px of scroll range
-const SCROLL_PER_TRACK = 400;
+const SCROLL_PER_TRACK_DESKTOP = 400;
+const SCROLL_PER_TRACK_MOBILE = 240;
 
 /* ─────────────────────────────────────────────
    Single animated song card
@@ -151,7 +152,7 @@ function SongCard({
                             className="absolute bottom-0 left-0 right-0 px-5 pb-5 pt-10"
                         >
                             {track.genre && (
-                                <div className="mb-1.5 text-[0.52rem] font-bold uppercase tracking-[0.28em] text-white/50">
+                                <div className="mb-1.5 text-[0.52rem] font-bold uppercase tracking-[0.28em] text-white/62">
                                     {track.genre}
                                 </div>
                             )}
@@ -168,18 +169,18 @@ function SongCard({
                                 {track.album && (
                                     <>
                                         <span className="text-white/30">·</span>
-                                        <span className="text-[0.65rem] text-white/45">{track.album}</span>
+                                        <span className="text-[0.65rem] text-white/60">{track.album}</span>
                                     </>
                                 )}
                                 {track.year && (
                                     <>
                                         <span className="text-white/30">·</span>
-                                        <span className="text-[0.65rem] text-white/45">{track.year}</span>
+                                        <span className="text-[0.65rem] text-white/60">{track.year}</span>
                                     </>
                                 )}
                             </div>
                             {track.description && (
-                                <p className="mt-2.5 max-w-[30ch] text-[0.62rem] leading-[1.7] text-white/50">
+                                <p className="mt-2.5 max-w-[30ch] text-[0.62rem] leading-[1.7] text-white/62">
                                     {track.description}
                                 </p>
                             )}
@@ -311,8 +312,19 @@ function SectionMeta() {
 ───────────────────────────────────────────── */
 export function FreshTunes({ tracks }: FreshTunesProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isMobile, setIsMobile] = React.useState(() =>
+        typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
+    );
 
-    const totalScrollHeight = tracks.length * SCROLL_PER_TRACK;
+    React.useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
+    const scrollPerTrack = isMobile ? SCROLL_PER_TRACK_MOBILE : SCROLL_PER_TRACK_DESKTOP;
+    const totalScrollHeight = tracks.length * scrollPerTrack;
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
