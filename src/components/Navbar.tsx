@@ -13,7 +13,7 @@ export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu }: NavbarPr
     return (
         <>
             <nav
-                className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b-2 border-[var(--black)] bg-[var(--white)] px-5 py-4 transition-transform duration-300 md:px-12 ${hidden ? '-translate-y-full' : 'translate-y-0'
+                className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b-2 border-[var(--black)] bg-[var(--white)] px-5 py-4 transition-transform duration-300 max-w-[100vw] md:px-12 ${hidden ? '-translate-y-full' : 'translate-y-0'
                     }`}
             >
                 <a href="#hero" className="font-display text-[1.6rem] tracking-[0.1em] no-underline">
@@ -50,7 +50,7 @@ export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu }: NavbarPr
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -16 }}
                         transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                        className="fixed left-0 right-0 top-16 z-40 flex list-none flex-col border-b-2 border-[var(--black)] bg-[var(--black)] px-8 py-6 md:hidden"
+                        className="fixed left-0 right-0 top-16 z-40 flex list-none flex-col border-b-2 border-[var(--black)] bg-[var(--black)] px-8 py-6 max-w-[100vw] md:hidden"
                     >
                         {navLinks.map((link, index) => (
                             <motion.li
