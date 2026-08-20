@@ -87,14 +87,15 @@ function ProjectCard({
 export function HorizontalProjects({ projects, onSelect }: HorizontalProjectsProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(() =>
+        typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false
+    );
     const [maxScroll, setMaxScroll] = useState(0);
     const [current, setCurrent] = useState(0);
 
     // Mobile detection
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
-        setIsMobile(mq.matches);
         const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
         mq.addEventListener('change', handler);
         return () => mq.removeEventListener('change', handler);

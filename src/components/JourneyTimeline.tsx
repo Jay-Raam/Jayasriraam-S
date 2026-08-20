@@ -46,10 +46,11 @@ function TimelineIcon({ icon }: { icon: TimelineEvent['icon'] }) {
 }
 
 function TimelineNode({ event, index, isLast }: { event: TimelineEvent; index: number; isLast: boolean }) {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(() =>
+        typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false
+    );
     useEffect(() => {
         const mq = window.matchMedia('(max-width: 768px)');
-        setIsMobile(mq.matches);
         const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
         mq.addEventListener('change', handler);
         return () => mq.removeEventListener('change', handler);
@@ -117,7 +118,7 @@ function TimelineNode({ event, index, isLast }: { event: TimelineEvent; index: n
 
 export function JourneyTimeline() {
     return (
-        <section id="journey" className="border-b-2 border-[var(--black)] bg-[var(--white)] px-6 py-20 md:px-12 md:py-28">
+        <section id="journey" className="border-b-2 border-[var(--black)] bg-[var(--white)] px-6 py-20 overflow-hidden md:px-12 md:py-28">
             <SectionHeader number="06" title="MY STORY" />
 
             <motion.div
