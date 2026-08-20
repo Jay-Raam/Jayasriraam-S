@@ -76,6 +76,41 @@ export type ContactLink = {
   href: string;
 };
 
+export type Kavithai = {
+  tamil: string;
+  english: string;
+  author?: string;
+};
+
+export type TimelineEvent = {
+  year: string;
+  title: string;
+  description: string;
+  icon: 'start' | 'work' | 'edu' | 'milestone' | 'current';
+};
+
+export type BookItem = {
+  title: string;
+  author: string;
+  genre: string;
+  status: 'reading' | 'completed' | 'wishlist';
+  note?: string;
+};
+
+export type GalleryItem = {
+  image: string;
+  location: string;
+  caption: string;
+  date: string;
+};
+
+export type GalleryVideoItem = {
+  video: string;
+  location: string;
+  caption: string;
+  date: string;
+};
+
 export const navLinks: NavLink[] = [
   { href: '#education', label: 'Education' },
   { href: '#skills', label: 'Skills' },
@@ -357,7 +392,7 @@ export const projects: ProjectItem[] = [
     title: 'Paarambhariya – E-commerce & Admin Platform',
     tags: ['React.js', 'Tailwind CSS', 'Zustand', 'Chart.js', 'REST API', 'Axios'],
     desc: 'A full-scale e-commerce and enterprise admin platform built for Paarambhariya, covering the entire business lifecycle — from storefront and order management to production, logistics, finance, and analytics. Designed for enterprise users with role-based access control, modular architecture, and a high-performance React.js frontend powered by Zustand state management and REST API integration.',
-    image: '/project/Nayagi.png',
+    image: '/project/paarambhariya_logo.jpg',
     bullets: [
       'Independently built and deployed a full-scale e-commerce + admin platform covering storefront, orders, production, logistics, and finance end-to-end',
       'Implemented Zustand for lightweight, scalable client-side state management across complex admin workflows',
@@ -612,6 +647,237 @@ export const musicTracks: MusicTrack[] = [
     link: 'https://www.jiosaavn.com/song/sotta-sotta/QDwOBkRUUns',
   },
 ];
+
+export const kavithaigal: Kavithai[] = [
+  // Romantic - 4
+  {
+    tamil: 'அவள் நினைவுகள் போதும்,\nஇந்த தனிமையும் அழகாகிறது...',
+    english: 'Her memories are enough,\nEven this solitude becomes beautiful...',
+  },
+
+  {
+    tamil: 'நீ கொடுத்த முதல் முத்தத்தின்\nஎச்சில் கூடக் காயவில்லை,\nஎவ்வாறு உனை இழப்பேன்?',
+    english: 'Even the trace of your first kiss\nhas not yet dried,\nhow could I ever lose you?',
+  },
+
+  {
+    tamil: 'உன் உயிர் காட்டில்\nமோகம் தலைக்கேறி,\nஉயிர் மறந்து கனவு தொலைந்தேன்...',
+    english: 'Lost in the forest of your soul,\nconsumed by desire,\nI forgot myself and lost my dreams...',
+  },
+
+  {
+    tamil: 'என் போராட்ட குணம்\nஉன் காலடியில்,\nமுடிவு உன்னுடையது...',
+    english: 'My fighting spirit\nlies at your feet,\nthe decision is yours...',
+  },
+
+  // Philosophy - 3
+  {
+    tamil: 'நிழலைத் தேடி நடந்தவன்,\nவெயிலை குறை சொல்லவில்லை,\nதன்னை மட்டும் மறந்திருந்தான்.',
+    english: 'The one who walked searching for a shadow\ndid not blame the sunlight,\nhe had simply forgotten himself.',
+  },
+
+  {
+    tamil: 'முடிந்த கதவின் மறுபக்கம்\nயாரும் இல்லை,\nதிறக்காமல் இருந்தவன் மட்டும் இருந்தான்.',
+    english: 'There was no one\non the other side of the closed door,\nonly the one who never opened it.',
+  },
+
+  {
+    tamil: 'நதி கடலை அடைந்த பிறகு,\nதன் பெயரை இழந்தது,\nஆனால் பயணம் அல்ல.',
+    english: 'After the river reached the sea,\nit lost its name,\nbut not its journey.',
+  },
+
+  // Normal - 2
+  {
+    tamil: 'இப்போது இவள் இதயத்துடிப்பின் சத்தம் மட்டும்,\nஎன் அமைதி பேரமைதி.',
+    english: 'Now, only the sound of her heartbeat,\nmy silence has become absolute peace.',
+  },
+
+  {
+    tamil: 'போதுமா என் ஆசை ராணிக்கு ஒப்பனை,\nவருவாய் இந்த மாயேனை தேடி,\nகாத்திருப்பேன் உன் பதிலை நாடி...',
+    english: 'Is this adornment enough for my queen?\nCome searching for this dreamer,\nI will wait for your answer...',
+  },
+];
+
+export const timeline: TimelineEvent[] = [
+  {
+    year: '2020',
+    title: 'Started BCA',
+    description: 'Began my journey in Computer Applications at G.T.N Arts College, Dindigul. Fell in love with coding and problem-solving.',
+    icon: 'start',
+  },
+  {
+    year: '2023',
+    title: 'Graduated BCA — 8.0 CGPA',
+    description: 'Completed Bachelor of Computer Applications with first class. Built my first full-stack projects and discovered my passion for frontend development.',
+    icon: 'edu',
+  },
+  {
+    year: 'May 2023',
+    title: 'Full Stack Developer at Akkenam',
+    description: 'Joined Akkenam Technologies in Dindigul. Built GraphQL APIs, MongoDB schemas, and modern UI systems. Grew from junior to confident full-stack developer.',
+    icon: 'work',
+  },
+  {
+    year: 'Dec 2024',
+    title: 'Software Developer at PPV Technology',
+    description: 'Moved to Chennai to join PPV Technology. Leading frontend development for IoT dashboards, mobile apps, and enterprise ERP platforms.',
+    icon: 'milestone',
+  },
+  {
+    year: '2026',
+    title: 'Started MCA at Bharathidasan University',
+    description: 'Pursuing Master of Computer Applications to deepen expertise in distributed systems and enterprise architecture.',
+    icon: 'edu',
+  },
+  {
+    year: 'Now',
+    title: 'Building & Learning Every Day',
+    description: '10+ production apps shipped. Exploring Gen AI, prompt engineering, and Tamil tech writing. Always building, always learning.',
+    icon: 'current',
+  },
+];
+
+export const bookshelf: BookItem[] = [
+  // =========================
+  // Tamil Classics - 5
+  // =========================
+  {
+    title: 'நாலடியார்',
+    author: 'சமண முனிவர்கள்',
+    genre: 'Tamil Classic',
+    status: 'wishlist',
+    note: 'Ancient Tamil wisdom on ethics, discipline, impermanence, and the way we should live.',
+  },
+  {
+    title: 'புறநானூறு',
+    author: 'பல சங்கப் புலவர்கள்',
+    genre: 'Tamil Classic',
+    status: 'reading',
+    note: 'Raw Sangam-era wisdom about leadership, war, friendship, generosity, mortality, and human nature.',
+  },
+  {
+    title: 'அகநானூறு',
+    author: 'பல சங்கப் புலவர்கள்',
+    genre: 'Tamil Classic',
+    status: 'wishlist',
+    note: 'A rare window into ancient Tamil emotions, relationships, love, separation, and human psychology.',
+  },
+  {
+    title: 'பதிற்றுப்பத்து',
+    author: 'பல சங்கப் புலவர்கள்',
+    genre: 'Tamil Classic',
+    status: 'wishlist',
+    note: 'Sangam poetry focused on Chera kings, leadership, courage, generosity, and the values of ancient Tamil society.',
+  },
+  {
+    title: 'சிறுபாணாற்றுப்படை',
+    author: 'நத்தத்தனார்',
+    genre: 'Tamil Classic',
+    status: 'wishlist',
+    note: 'A beautiful Sangam-era journey through landscapes, people, culture, generosity, and the life of an ancient Tamil poet.',
+  },
+
+  // =========================
+  // Technology - 4
+  // =========================
+  {
+    title: 'Designing Data-Intensive Applications',
+    author: 'Martin Kleppmann',
+    genre: 'Systems Design',
+    status: 'reading',
+    note: 'A deep dive into distributed systems, databases, scalability, reliability, and building data-intensive applications.',
+  },
+  {
+    title: 'The Pragmatic Programmer',
+    author: 'David Thomas & Andrew Hunt',
+    genre: 'Software Engineering',
+    status: 'reading',
+    note: 'A timeless guide to software craftsmanship, engineering habits, maintainability, and becoming a better developer.',
+  },
+  {
+    title: 'Refactoring',
+    author: 'Martin Fowler',
+    genre: 'Software Engineering',
+    status: 'wishlist',
+    note: 'A practical guide to improving existing code structure without changing its external behavior.',
+  },
+  {
+    title: 'Clean Architecture',
+    author: 'Robert C. Martin',
+    genre: 'Software Architecture',
+    status: 'wishlist',
+    note: 'A strong foundation for designing maintainable, scalable, testable, and long-lived software systems.',
+  },
+
+  // =========================
+  // Psychology - 3
+  // =========================
+  {
+    title: 'Thinking, Fast and Slow',
+    author: 'Daniel Kahneman',
+    genre: 'Psychology',
+    status: 'wishlist',
+    note: 'Explores how people think, make decisions, use intuition, and fall into predictable cognitive biases.',
+  },
+  {
+    title: 'Influence',
+    author: 'Robert B. Cialdini',
+    genre: 'Psychology',
+    status: 'wishlist',
+    note: 'A fascinating study of persuasion, social influence, decision-making, and why people say yes.',
+  },
+  {
+    title: 'The Psychology of Money',
+    author: 'Morgan Housel',
+    genre: 'Behavioral Psychology',
+    status: 'wishlist',
+    note: 'Explains how emotions, behavior, personal experiences, and psychology shape financial decisions.',
+  },
+];
+
+export const galleryImages: GalleryItem[] = [
+  {
+    image: '/Pictures/nazreen-banu-xTjrbT_4moA-unsplash.jpg',
+    location: 'Vaigai Dam, Tamil Nadu',
+    caption: 'Streets of Vaigai Dam — where life moves fast and every corner has a story.',
+    date: 'OCT 2024',
+  },
+  {
+    image: '/Pictures/pexels-unnikrishnan-hari-407276183-16768843.jpg',
+    location: 'Dindigul, Tamil Nadu',
+    caption: 'The hills of Dindigul — quiet mornings and scenic beauty.',
+    date: 'APR 2024',
+  },
+];
+
+export const galleryVideos: GalleryVideoItem[] = [
+  {
+    video: '/Pictures/17647200-hd_1920_1080_60fps.mp4',
+    location: 'Andipatti, Theni',
+    caption: 'Rolling hills and green pastures in Andipatti.',
+    date: 'MAY 2024',
+  },
+  {
+    video: '/Pictures/16351089_1920_1080_50fps.mp4',
+    location: 'Kodaikanal, Tamil Nadu',
+    caption: 'Walking through the mist in Kodaikanal.',
+    date: 'MAY 2024',
+  },
+  {
+    video: '/Pictures/14876008_1920_1080_60fps.mp4',
+    location: 'Nilgiris, Tamil Nadu',
+    caption: 'Winding roads and breathtaking views of the Western Ghats.',
+    date: 'SEP 2024',
+  },
+  {
+    video: '/Pictures/19669265-hd_1920_1080_25fps.mp4',
+    location: 'Sirumalai, Dindigul',
+    caption: 'Sunset at Sirumalai — the endless horizon and calming waves.',
+    date: 'OCT 2024',
+  },
+];
+
+export const gallery: GalleryItem[] = galleryImages;
 
 export const contactLinks: ContactLink[] = [
   { label: 'Email', value: 'jayasriraam.job@gmail.com', href: 'mailto:jayasriraam.job@gmail.com' },

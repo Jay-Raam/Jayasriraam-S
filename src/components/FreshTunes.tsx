@@ -298,7 +298,7 @@ function SectionMeta() {
     return (
         <div className="absolute left-6 top-8 flex flex-col gap-1 md:left-10">
             <div className="text-[0.52rem] mt-2.5 font-bold uppercase tracking-[0.3em] text-white/30">
-                08 / Fresh Tunes
+                11 / Fresh Tunes
             </div>
             <div className="mt-1 text-[0.62rem] tracking-[0.05em] text-white/20">
                 Tamil classics on repeat

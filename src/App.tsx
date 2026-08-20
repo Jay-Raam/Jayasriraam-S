@@ -11,10 +11,8 @@ import { ScrollProgress } from './components/ScrollProgress';
 import { Marquee } from './components/Marquee';
 import { CountUp } from './components/CountUp';
 import { HorizontalProjects } from './components/HorizontalProjects';
-import { AchievementIcon } from './components/AchievementIcon';
-import { AchievementsMobile } from './components/AchievementsMobile';
+
 import {
-    achievements,
     blogDetails,
     contactLinks,
     educations,
@@ -29,8 +27,11 @@ import {
 } from './data/portfolio';
 
 import { WorkflowSection } from './components/Workflowsection';
-
 import { FreshTunes } from './components/FreshTunes';
+import { TamilKavithai } from './components/TamilKavithai';
+import { JourneyTimeline } from './components/JourneyTimeline';
+import { Bookshelf } from './components/Bookshelf';
+import { TravelGallery } from './components/TravelGallery';
 
 const SKILL_MARQUEE = [
     'React.js',
@@ -551,27 +552,9 @@ function App() {
 
                 <WorkflowSection />
 
-                <section id="achievements" className="bg-[var(--white)] px-6 py-20 text-[var(--black)] md:px-12 md:py-28">
-                    <SectionHeader number="06" title="ACHIEVEMENTS" />
-                    {isMobile ? (
-                        <AchievementsMobile achievements={achievements} />
-                    ) : (
-                        <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
-                            {achievements.map((achievement) => (
-                                <div
-                                    key={achievement.title}
-                                    className="group reveal -ml-px -mt-px flex flex-col gap-4 border-2 border-[var(--black)] px-8 py-10 transition-colors duration-200 hover:bg-[var(--black)] hover:text-[var(--white)]"
-                                >
-                                    <div className="flex h-13 w-13 items-center justify-center border-2 border-[var(--accent2)] bg-[var(--accent2)]/8 text-[var(--accent2)] transition-colors duration-200 group-hover:border-white/35 group-hover:bg-white/10 group-hover:text-[var(--white)]">
-                                        <AchievementIcon icon={achievement.icon} />
-                                    </div>
-                                    <div className="font-syne text-[0.75rem] font-extrabold uppercase tracking-[0.15em] text-black/90 transition-colors duration-200 group-hover:text-white/90">{achievement.title}</div>
-                                    <div className="text-[0.72rem] leading-[1.9] text-black/78 transition-colors duration-200 group-hover:text-white/75">{achievement.text}</div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </section>
+                <JourneyTimeline />
+
+                <TamilKavithai />
 
                 <Marquee
                     items={BLOG_MARQUEE}
@@ -580,7 +563,7 @@ function App() {
                 />
 
                 <section id="blog" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
-                    <SectionHeader number="07" title="BLOG WRITINGS" />
+                    <SectionHeader number="08" title="BLOG WRITINGS" />
 
                     <div className="reveal mb-8 flex justify-start md:mb-10 md:justify-end">
                         <a
@@ -601,6 +584,10 @@ function App() {
                             ))}
                     </div>
                 </section>
+
+                <Bookshelf />
+
+                <TravelGallery />
 
                 <FreshTunes tracks={musicTracks} />
 

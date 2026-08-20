@@ -5,6 +5,7 @@
   --font-serif: "DM Serif Display", serif;
   --font-mono: "Space Mono", monospace;
   --font-syne: "Syne", sans-serif;
+  --font-tamil: "Noto Sans Tamil", sans-serif;
 }
 
 :root {
@@ -80,6 +81,14 @@ a,
 button {
   cursor: crosshair;
 }
+
+/* Tamil kavithai styling */
+.kavithai-tamil {
+  font-family: var(--font-tamil);
+  font-weight: 600;
+}
+
+
 
 #root {
   min-height: 100vh;
