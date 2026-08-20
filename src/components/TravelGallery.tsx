@@ -29,7 +29,7 @@ function GalleryCard({ item, index }: { item: GalleryItem; index: number }) {
                     src={item.image}
                     alt={item.location}
                     loading="lazy"
-                    className="w-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 grayscale"
+                    className="w-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 md:grayscale grayscale-0"
                 />
 
                 {/* Gradient overlay */}
@@ -123,7 +123,7 @@ function GalleryVideoCard({ item, index }: { item: GalleryVideoItem; index: numb
                         loop
                         playsInline
                         preload="metadata"
-                        className="w-full h-full object-cover transition-all duration-300 filter grayscale blur-[4px] group-hover:filter-none scale-102 group-hover:scale-100"
+                        className="w-full h-full object-cover transition-all duration-300 filter md:grayscale md:blur-[4px] grayscale-0 blur-none group-hover:filter-none scale-102 group-hover:scale-100"
                     />
                 ) : (
                     <div className="w-full h-full bg-neutral-900 animate-pulse flex items-center justify-center">

@@ -859,7 +859,7 @@ export const galleryVideos: GalleryVideoItem[] = [
   },
   {
     video: '/Pictures/16351089_1920_1080_50fps.mp4',
-    location: 'Kodaikanal, Tamil Nadu',
+    location: 'Kodaikanal, Tamil Nadu', 
     caption: 'Walking through the mist in Kodaikanal.',
     date: 'MAY 2024',
   },

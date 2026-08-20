@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { timeline, type TimelineEvent } from '../data/portfolio';
 import { SectionHeader } from './SectionHeader';
@@ -45,6 +46,15 @@ function TimelineIcon({ icon }: { icon: TimelineEvent['icon'] }) {
 }
 
 function TimelineNode({ event, index, isLast }: { event: TimelineEvent; index: number; isLast: boolean }) {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 768px)');
+        setIsMobile(mq.matches);
+        const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
     const EASE = [0.16, 1, 0.3, 1] as const;
     const isLeft = index % 2 === 0;
 
@@ -52,8 +62,8 @@ function TimelineNode({ event, index, isLast }: { event: TimelineEvent; index: n
         <div className={`relative flex items-stretch ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
             {/* Content card */}
             <motion.div
-                initial={{ x: isLeft ? -40 : 40, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
+                initial={{ x: isMobile ? 0 : (isLeft ? -40 : 40), y: isMobile ? 20 : 0, opacity: 0 }}
+                whileInView={{ x: 0, y: 0, opacity: 1 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
                 className={`w-full md:w-[calc(50%-2rem)] border-2 border-[var(--black)] bg-[var(--white)] px-7 py-7 transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)] group ${
@@ -97,7 +107,7 @@ function TimelineNode({ event, index, isLast }: { event: TimelineEvent; index: n
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: index * 0.08 }}
-                className="absolute -left-[1.35rem] top-7 z-10 flex h-7 w-7 items-center justify-center border-2 border-[var(--black)] bg-[var(--white)] text-[var(--black)] md:hidden"
+                className="absolute -left-8 top-7 z-10 flex h-8 w-8 items-center justify-center border-2 border-[var(--black)] bg-[var(--white)] text-[var(--black)] md:hidden"
             >
                 <TimelineIcon icon={event.icon} />
             </motion.div>
@@ -123,9 +133,9 @@ export function JourneyTimeline() {
             </motion.div>
 
             {/* Timeline */}
-            <div className="relative flex flex-col gap-6 pl-6 md:pl-0">
+            <div className="relative flex flex-col gap-6 pl-8 md:pl-0">
                 {/* Vertical line (desktop) */}
-                <div className="pointer-events-none absolute left-[1.25rem] top-0 bottom-0 w-[2px] bg-[var(--black)]/10 md:left-1/2 md:-translate-x-1/2" />
+                <div className="pointer-events-none absolute left-[15px] top-0 bottom-0 w-[2px] bg-[var(--black)]/10 md:left-1/2 md:-translate-x-1/2" />
 
                 {timeline.map((event, index) => (
                     <TimelineNode
