@@ -27,9 +27,8 @@ function ProjectCard({
         <button
             type="button"
             onClick={() => onSelect(project)}
-            className={`group relative -ml-px -mt-px flex cursor-pointer flex-col overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] text-left transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)] ${
-                compact ? 'w-full' : 'h-[58vh] min-w-[86vw] md:h-[66vh] md:min-w-[580px]'
-            }`}
+            className={`group relative -ml-px -mt-px flex cursor-pointer flex-col overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] text-left transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)] ${compact ? 'w-full' : 'h-[58vh] min-w-[86vw] md:h-[66vh] md:min-w-[580px]'
+                }`}
         >
             <div className="pointer-events-none absolute right-3 top-0 z-10 font-display text-[5rem] leading-none text-black/5 transition-colors duration-300 group-hover:text-white/10 md:text-[7rem]">
                 {project.num}
@@ -203,7 +202,7 @@ export function HorizontalProjects({ projects, onSelect }: HorizontalProjectsPro
 
                 {/* Bottom edge */}
                 <div className="border-t-2 border-[var(--black)] py-4 text-center text-[0.55rem] uppercase tracking-[0.3em] text-[var(--gray)]">
-                    {projects.length} production-grade projects — click any card for the full story
+                    click any card for the full story
                 </div>
             </div>
         </section>
