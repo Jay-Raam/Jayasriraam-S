@@ -119,6 +119,14 @@ button {
   width: 100%;
 }
 
+.nav-link.is-active {
+  color: var(--accent);
+}
+
+.nav-link.is-active::after {
+  width: 100%;
+}
+
 .hero-mark {
   position: absolute;
   bottom: -2rem;

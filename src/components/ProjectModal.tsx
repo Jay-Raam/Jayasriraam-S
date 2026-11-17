@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { ProjectItem } from '../data/portfolio';
+import { categorizeTags } from '../lib/techCategories';
 
 type ProjectModalProps = {
     project: ProjectItem;
@@ -7,6 +8,8 @@ type ProjectModalProps = {
 };
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
+    const buckets = categorizeTags(project.tags);
+
     return (
         <motion.div
             className="fixed inset-0 z-100 flex items-center justify-center bg-black/85 px-4 py-8 backdrop-blur-md"
@@ -69,6 +72,22 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                 <div className="px-6 py-6 md:px-10 md:py-10">
                     <div className="modal-label">Overview</div>
                     <p className="text-[0.75rem] leading-[1.9] text-black/80 md:text-[0.8rem]">{project.desc}</p>
+
+                    <div className="modal-label">Engineering Breakdown</div>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {(Object.entries(buckets) as [string, string[]][]).map(([bucket, tags]) => (
+                            <div key={bucket} className="-ml-px -mt-px border-2 border-[var(--black)] px-4 py-4">
+                                <div className="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-[var(--accent2)]">{bucket}</div>
+                                <div className="mt-2 flex flex-wrap gap-1.5">
+                                    {tags.map((tag) => (
+                                        <span key={tag} className="text-[0.65rem] leading-[1.6] text-black/75">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
                     <div className="modal-label">Key Highlights</div>
                     <ul className="flex list-none flex-col gap-2">

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import Lenis from 'lenis';
 import { Navbar } from './components/Navbar';
@@ -11,6 +11,12 @@ import { ScrollProgress } from './components/ScrollProgress';
 import { Marquee } from './components/Marquee';
 import { CountUp } from './components/CountUp';
 import { HorizontalProjects } from './components/HorizontalProjects';
+import { MagneticButton } from './components/MagneticButton';
+import { TiltCard } from './components/TiltCard';
+
+const HeroSystemScene = lazy(() =>
+    import('./components/HeroSystemScene').then((m) => ({ default: m.HeroSystemScene })),
+);
 
 import {
     blogDetails,
@@ -19,6 +25,7 @@ import {
     experiences,
     heroStats,
     musicTracks,
+    navLinks,
     projects,
     skillCategories,
     type BlogPost,
@@ -130,31 +137,33 @@ function BlogCard({ post }: { post: BlogPost }) {
     const imgY = useTransform(scrollYProgress, [0, 1], ['-10%', '10%']);
 
     return (
-        <a
-            ref={cardRef}
-            href={post.url}
-            target="_blank"
-            rel="noreferrer"
-            className="reveal mb-4 group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
-        >
-            <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
-                <motion.img
-                    style={{ y: imgY }}
-                    src={post.image}
-                    alt={post.title}
-                    loading="lazy"
-                    className="h-[120%] w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
-                    referrerPolicy="no-referrer"
-                />
-            </div>
-            <div className="px-6 py-6">
-                <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
-                <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
-                <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/75 transition-colors duration-300 group-hover:text-white/80">
-                    Read article <span className="text-[0.9rem]">↗</span>
+        <TiltCard maxTilt={3}>
+            <a
+                ref={cardRef}
+                href={post.url}
+                target="_blank"
+                rel="noreferrer"
+                className="reveal mb-4 group -ml-px -mt-px block border-2 border-[var(--black)] bg-[var(--white)] text-inherit no-underline transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]"
+            >
+                <div className="relative aspect-[16/10] overflow-hidden border-b-2 border-[var(--black)]">
+                    <motion.img
+                        style={{ y: imgY }}
+                        src={post.image}
+                        alt={post.title}
+                        loading="lazy"
+                        className="h-[120%] w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:opacity-90"
+                        referrerPolicy="no-referrer"
+                    />
                 </div>
-            </div>
-        </a>
+                <div className="px-6 py-6">
+                    <div className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">{post.date}</div>
+                    <h3 className="mt-3 font-syne text-[1rem] font-extrabold leading-[1.4] tracking-[0.02em]">{post.title}</h3>
+                    <div className="mt-5 inline-flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.15em] text-black/75 transition-colors duration-300 group-hover:text-white/80">
+                        Read article <span className="text-[0.9rem]">↗</span>
+                    </div>
+                </div>
+            </a>
+        </TiltCard>
     );
 }
 
@@ -216,6 +225,28 @@ function App() {
 
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    /* ── Scroll-aware active nav section ── */
+    const [activeSection, setActiveSection] = useState('hero');
+    useEffect(() => {
+        const sections = navLinks
+            .map((link) => document.querySelector<HTMLElement>(link.href))
+            .filter((el): el is HTMLElement => Boolean(el));
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
+        );
+
+        sections.forEach((section) => observer.observe(section));
+        return () => observer.disconnect();
     }, []);
 
     /* ── Reveal observer for legacy .reveal elements ── */
@@ -311,17 +342,22 @@ function App() {
                 menuOpen={menuOpen}
                 onToggleMenu={() => setMenuOpen((current) => !current)}
                 onCloseMenu={() => setMenuOpen(false)}
+                activeSection={activeSection}
             />
 
             <main>
                 <section
                     id="hero"
                     ref={heroRef}
-                    className="grid min-h-screen border-b-2 border-[var(--black)] pt-[72px] md:grid-cols-2"
+                    className="relative grid min-h-screen border-b-2 border-[var(--black)] pt-[72px] md:grid-cols-2"
                 >
+                    <Suspense fallback={null}>
+                        <HeroSystemScene heroProgress={heroProgress} />
+                    </Suspense>
+
                     <motion.div
                         style={{ opacity: heroFade }}
-                        className="relative overflow-hidden border-b-2 border-[var(--black)] px-6 py-16 md:border-b-0 md:border-r-2 md:px-12 md:py-20"
+                        className="relative z-10 overflow-hidden border-b-2 border-[var(--black)] px-6 py-16 md:border-b-0 md:border-r-2 md:px-12 md:py-20"
                     >
                         <div className="hero-mark">JS</div>
 
@@ -377,12 +413,16 @@ function App() {
                             transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
                             className="mt-12 flex flex-wrap gap-4"
                         >
-                            <a href="#projects" className="button-primary">
-                                View Projects
-                            </a>
-                            <a href="mailto:jayasriraam.job@gmail.com" className="button-secondary">
-                                Get In Touch
-                            </a>
+                            <MagneticButton>
+                                <a href="#projects" className="button-primary">
+                                    View Projects
+                                </a>
+                            </MagneticButton>
+                            <MagneticButton>
+                                <a href="mailto:jayasriraam.job@gmail.com" className="button-secondary">
+                                    Get In Touch
+                                </a>
+                            </MagneticButton>
                         </motion.div>
 
                         <div className="absolute bottom-8 left-6 hidden flex-col items-center gap-2 md:flex md:left-12">
@@ -391,7 +431,7 @@ function App() {
                         </div>
                     </motion.div>
 
-                    <div className="relative flex flex-col px-6 py-10 md:px-12 md:py-16">
+                    <div className="relative z-10 flex flex-col px-6 py-10 md:px-12 md:py-16">
                         {/* Rotating 'open to work' sticker (mew-style accent) */}
                         <RotatingBadge className="absolute right-4 top-10 hidden md:block md:right-10 md:top-12" />
 
@@ -447,10 +487,8 @@ function App() {
                 <section id="skills" className="border-b-2 border-[var(--black)] px-6 py-20 md:px-12 md:py-28">
                     <SectionHeader number="01" title="TECH STACK" />
                     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-                        {skillCategories.map((category) => (                                <div
-                                key={category.title}
-                                className="group reveal skill-card -ml-px -mt-px border-2 border-[var(--black)] px-8 py-10 transition-colors duration-300"
-                            >
+                        {skillCategories.map((category) => (
+                            <TiltCard key={category.title} maxTilt={4} className="group reveal skill-card -ml-px -mt-px border-2 border-[var(--black)] px-8 py-10 transition-colors duration-300">
                                 <div className="mb-4 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110">
                                     <SkillIcon icon={category.icon} />
                                 </div>
@@ -462,7 +500,7 @@ function App() {
                                         </span>
                                     ))}
                                 </div>
-                            </div>
+                            </TiltCard>
                         ))}
                     </div>
                 </section>
@@ -502,7 +540,7 @@ function App() {
 
                     <div className="flex flex-col gap-6">
                         {educations.map((education, index) => (
-                            <div key={education.degree} className="reveal border-2 border-[var(--black)]">
+                            <TiltCard key={education.degree} maxTilt={2.5} className="reveal border-2 border-[var(--black)]">
                                 <div className="grid md:grid-cols-[1.2fr_0.8fr]">
                                     <div className="relative overflow-hidden border-b-2 border-[var(--black)] px-8 py-10 md:border-b-0 md:border-r-2 md:px-10 md:py-12">
                                         <div className="pointer-events-none absolute right-4 top-2 font-display text-[3rem] leading-none text-black/5 md:text-[5rem]">
@@ -545,7 +583,7 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </TiltCard>
                         ))}
                     </div>
                 </section>
@@ -632,17 +670,17 @@ function App() {
 
                         <div className="reveal mt-2 flex flex-col">
                             {contactLinks.map((contact) => (
-                            <a
-                                key={contact.label}
-                                href={contact.href}
-                                target={contact.href.startsWith('http') ? '_blank' : undefined}
-                                rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
-                                className="group flex items-center gap-6 border-b border-white/10 py-6 text-[var(--white)] no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
-                            >
-                                <span className="w-20 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)] transition-colors duration-200 group-hover:text-[var(--accent2)]">{contact.label}</span>
-                                <span className="font-syne text-[0.8rem] font-bold md:text-[0.95rem]">{contact.value}</span>
-                                <span className="ml-auto text-[1.2rem] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">↗</span>
-                            </a>
+                                <a
+                                    key={contact.label}
+                                    href={contact.href}
+                                    target={contact.href.startsWith('http') ? '_blank' : undefined}
+                                    rel={contact.href.startsWith('http') ? 'noreferrer' : undefined}
+                                    className="group flex items-center gap-6 border-b border-white/10 py-6 text-[var(--white)] no-underline transition-colors duration-200 hover:text-[var(--accent2)]"
+                                >
+                                    <span className="w-20 text-[0.6rem] uppercase tracking-[0.2em] text-[var(--gray)] transition-colors duration-200 group-hover:text-[var(--accent2)]">{contact.label}</span>
+                                    <span className="font-syne text-[0.8rem] font-bold md:text-[0.95rem]">{contact.value}</span>
+                                    <span className="ml-auto text-[1.2rem] transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">↗</span>
+                                </a>
                             ))}
                         </div>
                     </div>

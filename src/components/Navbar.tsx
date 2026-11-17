@@ -7,9 +7,10 @@ type NavbarProps = {
     menuOpen: boolean;
     onToggleMenu: () => void;
     onCloseMenu: () => void;
+    activeSection?: string;
 };
 
-export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu }: NavbarProps) {
+export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu, activeSection }: NavbarProps) {
     return (
         <>
             <nav
@@ -23,7 +24,11 @@ export function Navbar({ hidden, menuOpen, onToggleMenu, onCloseMenu }: NavbarPr
                 <ul className="hidden list-none gap-8 md:flex">
                     {navLinks.map((link) => (
                         <li key={link.href}>
-                            <a href={link.href} className="nav-link text-[0.7rem] uppercase tracking-[0.15em] no-underline">
+                            <a
+                                href={link.href}
+                                className={`nav-link text-[0.7rem] uppercase tracking-[0.15em] no-underline ${activeSection === link.href.slice(1) ? 'is-active' : ''
+                                    }`}
+                            >
                                 <ScrambleText text={link.label} />
                             </a>
                         </li>

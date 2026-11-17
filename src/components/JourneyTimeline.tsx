@@ -67,9 +67,8 @@ function TimelineNode({ event, index, isLast }: { event: TimelineEvent; index: n
                 whileInView={{ x: 0, y: 0, opacity: 1 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.7, delay: index * 0.08, ease: EASE }}
-                className={`w-full md:w-[calc(50%-2rem)] border-2 border-[var(--black)] bg-[var(--white)] px-7 py-7 transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)] group ${
-                    isLeft ? 'md:mr-auto' : 'md:ml-auto'
-                }`}
+                className={`w-full md:w-[calc(50%-2rem)] border-2 border-[var(--black)] bg-[var(--white)] px-7 py-7 transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)] group ${isLeft ? 'md:mr-auto' : 'md:ml-auto'
+                    }`}
             >
                 <div className="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[var(--accent2)]">
                     {event.year}

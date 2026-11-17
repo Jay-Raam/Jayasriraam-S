@@ -250,7 +250,9 @@ export function WorkflowSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [sectionComplete, setSectionComplete] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 768px)").matches
+      : false,
   );
   const [swipeIndex, setSwipeIndex] = useState(0);
   const swipeTrackRef = useRef(null);
@@ -413,13 +415,16 @@ export function WorkflowSection() {
               aria-label={`Go to step ${step.step}`}
               onClick={() => scrollToCard(i)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === swipeIndex ? "w-7 bg-[var(--accent2)]" : "w-1.5 bg-white/25"
+                i === swipeIndex
+                  ? "w-7 bg-[var(--accent2)]"
+                  : "w-1.5 bg-white/25"
               }`}
             />
           ))}
         </div>
         <div className="mt-3 text-center text-[0.55rem] uppercase tracking-[0.25em] text-white/35">
-          {String(swipeIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          {String(swipeIndex + 1).padStart(2, "0")} /{" "}
+          {String(total).padStart(2, "0")}
         </div>
       </section>
     );

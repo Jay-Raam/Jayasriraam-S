@@ -8,6 +8,8 @@ import {
 } from 'framer-motion';
 import type { ProjectItem } from '../data/portfolio';
 import { SectionHeader } from './SectionHeader';
+import { TiltCard } from './TiltCard';
+import { categorizeTags } from '../lib/techCategories';
 
 type HorizontalProjectsProps = {
     projects: ProjectItem[];
@@ -23,63 +25,74 @@ function ProjectCard({
     onSelect: (project: ProjectItem) => void;
     compact?: boolean;
 }) {
+    const buckets = categorizeTags(project.tags);
+
     return (
-        <button
-            type="button"
-            onClick={() => onSelect(project)}
-            className={`group relative -ml-px -mt-px flex cursor-pointer flex-col overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] text-left transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)] ${compact ? 'w-full' : 'h-[58vh] min-w-[86vw] md:h-[66vh] md:min-w-[580px]'
-                }`}
-        >
-            <div className="pointer-events-none absolute right-3 top-0 z-10 font-display text-[5rem] leading-none text-black/5 transition-colors duration-300 group-hover:text-white/10 md:text-[7rem]">
-                {project.num}
-            </div>
-
-            {project.image ? (
-                <div className="relative h-36 shrink-0 overflow-hidden border-b-2 border-[var(--black)] md:h-48">
-                    <img
-                        src={project.image}
-                        alt={project.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
-                    />
-                </div>
-            ) : null}
-
-            <div className="flex flex-1 flex-col p-8 md:p-9">
-                <div className="relative flex items-center gap-3 text-[0.55rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">
-                    <span className="inline-block h-2 w-2 rounded-full bg-[var(--accent2)] transition-colors duration-300 group-hover:bg-white/60" />
-                    Selected Work
+        <TiltCard maxTilt={compact ? 0 : 3} className={compact ? 'w-full' : 'h-[58vh] min-w-[86vw] md:h-[66vh] md:min-w-[580px]'}>
+            <button
+                type="button"
+                onClick={() => onSelect(project)}
+                className={`group relative -ml-px -mt-px flex h-full w-full cursor-pointer flex-col overflow-hidden border-2 border-[var(--black)] bg-[var(--white)] text-left transition-colors duration-300 hover:bg-[var(--black)] hover:text-[var(--white)]`}
+            >
+                <div className="pointer-events-none absolute right-3 top-0 z-10 font-display text-[5rem] leading-none text-black/5 transition-colors duration-300 group-hover:text-white/10 md:text-[7rem]">
+                    {project.num}
                 </div>
 
-                <h3 className="relative mt-4 font-display text-[clamp(1.6rem,2.8vw,2.3rem)] leading-[0.95] tracking-[0.03em]">
-                    {project.title}
-                </h3>
+                {project.image ? (
+                    <div className="relative h-36 shrink-0 overflow-hidden border-b-2 border-[var(--black)] md:h-48">
+                        <img
+                            src={project.image}
+                            alt={project.title}
+                            loading="lazy"
+                            className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                        />
+                    </div>
+                ) : null}
 
-                <p className="relative mt-3 line-clamp-2 max-w-[46ch] text-[0.7rem] leading-[1.85] text-black/75 transition-colors duration-300 group-hover:text-white/60">
-                    {project.desc}
-                </p>
+                <div className="flex flex-1 flex-col p-8 md:p-9">
+                    <div className="relative flex items-center gap-3 text-[0.55rem] font-bold uppercase tracking-[0.22em] text-[var(--accent2)]">
+                        <span className="inline-block h-2 w-2 rounded-full bg-[var(--accent2)] transition-colors duration-300 group-hover:bg-white/60" />
+                        Selected Work
+                    </div>
 
-                <div className="relative mt-auto flex flex-wrap gap-2 pt-5">
-                    {project.tags.slice(0, 4).map((tag) => (
-                        <span
-                            key={tag}
-                            className="border border-black/20 px-2.5 py-1 text-[0.55rem] uppercase tracking-[0.1em] text-black/72 transition-colors duration-300 group-hover:border-white/30 group-hover:text-white/60"
-                        >
-                            {tag}
+                    <h3 className="relative mt-4 font-display text-[clamp(1.6rem,2.8vw,2.3rem)] leading-[0.95] tracking-[0.03em]">
+                        {project.title}
+                    </h3>
+
+                    <p className="relative mt-3 line-clamp-2 max-w-[46ch] text-[0.7rem] leading-[1.85] text-black/75 transition-colors duration-300 group-hover:text-white/60">
+                        {project.desc}
+                    </p>
+
+                    <div className="relative mt-auto flex flex-wrap gap-2 pt-5">
+                        {project.tags.slice(0, 4).map((tag) => (
+                            <span
+                                key={tag}
+                                className="border border-black/20 px-2.5 py-1 text-[0.55rem] uppercase tracking-[0.1em] text-black/72 transition-colors duration-300 group-hover:border-white/30 group-hover:text-white/60"
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="grid max-h-0 grid-cols-2 gap-x-4 gap-y-1.5 overflow-hidden opacity-0 transition-all duration-500 group-hover:mt-3 group-hover:max-h-24 group-hover:opacity-100">
+                        {(Object.entries(buckets) as [string, string[]][]).map(([bucket, tags]) => (
+                            <div key={bucket} className="text-[0.55rem] leading-[1.6] text-white/50">
+                                <span className="text-[var(--accent2)]">{bucket}:</span> {tags.join(', ')}
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="relative mt-4 flex items-center justify-between border-t border-black/15 pt-3 transition-colors duration-300 group-hover:border-white/15">
+                        <span className="text-[0.55rem] uppercase tracking-[0.15em] text-[var(--gray)] transition-colors duration-300 group-hover:text-white/30">
+                            Click to view details
                         </span>
-                    ))}
+                        <span className="text-[1.3rem] transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[var(--accent2)]">
+                            ↗
+                        </span>
+                    </div>
                 </div>
-
-                <div className="relative mt-4 flex items-center justify-between border-t border-black/15 pt-3 transition-colors duration-300 group-hover:border-white/15">
-                    <span className="text-[0.55rem] uppercase tracking-[0.15em] text-[var(--gray)] transition-colors duration-300 group-hover:text-white/30">
-                        Click to view details
-                    </span>
-                    <span className="text-[1.3rem] transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[var(--accent2)]">
-                        ↗
-                    </span>
-                </div>
-            </div>
-        </button>
+            </button>
+        </TiltCard>
     );
 }
 
